@@ -7,9 +7,17 @@
 </head>
 
 <body>
-    <img src="static/softfire.jpg" alt="SoftFIRE" align="middle" class="heightSet">
-    <h1>Experimenter Page</h1>
-    <h5>Welcome User {{current_user.username}}</h5>
+    <table class="formUpload" cellpadding="10px">
+    <tr class="formUpload">
+      <td class="formUpload">
+        <h1>Experimenter Page</h1>
+        <h5>Welcome User {{current_user.username}}</h5>
+      </td>
+      <td class="formUpload">
+        <img src="static/softfire.jpg" alt="SoftFIRE" align="middle" class="heightSet">
+      </td>
+    </tr>
+    </table>
     <table>
         <tr>
             <td>
@@ -23,7 +31,7 @@
                             <h2>Available Resources</h2>
                         </th>
                         <th id="main">
-                            <h2>Reserve Resources</h2>
+                            <h2>Available images</h2>
                         </th>
                     </tr>
                     <tr>
@@ -53,26 +61,31 @@
                                             </tr>
                                             %end
                                         </table>
-                                        <p> To refresh the list, refresh the page.</p>
+
                                     </form>
                                 </div>
                         </td>
                         <td>
                           <br />
 
-                                <form action="/reserve_resources" method="post" enctype="multipart/form-data">
-                                  <table class="formUpload" cellpadding="10px">
-                                    <tr class="formUpload">
-                                      <td class="formUpload">Select a file to upload:</td>
-                                    </tr>
-                                    <tr class="formUpload">
-                                      <td class="formUpload"><input type="file" name="data" /></td>
-                                    </tr>
-                                    <tr class="formUpload">
-                                      <td class="formUpload"><button type="submit" style="float: left;"> Reserve </button></td>
-                                    </tr>
-                                    </table>
-                                </form>
+                          <table class="listResTable" cellpadding="10px">
+                            <colgroup>
+                               <col span="1" style="width: 10%;">
+                               <col span="1" style="width: 10%;">
+                               <col span="1" style="width: 5%;">
+                               <col span="1" style="width: 30%;">
+                            </colgroup>
+                              <tr>
+                                  <th>Image name</th>
+                                  <th>Testbed</th>
+                              </tr>
+                              %for i in images:
+                              <tr>
+                                  <td>{{i['resource_id']}}</td>
+                                  <td>{{i['testbed']}}</td>
+                              </tr>
+                              %end
+                          </table>
                         </td>
                     </tr>
                 </table>
@@ -82,8 +95,24 @@
         <tr>
             <td style="padding: 10px; padding-bottom: 50px">
               <table class="formUpload" cellpadding="10px">
+                <colgroup>
+                   <col span="1" style="width: 50%;">
+                   <col span="1" style="width: 40%;">
+                   <col span="1" style="width: 10%;">
+                </colgroup>
                 <tr class="formUpload">
                   <td class="formUpload"><h2>Your experiment {{experiment_id}}</h2></td>
+                  <td class="formUpload">
+                    <form action="delete_resources" method="post">
+                      <table class="formUpload" cellpadding="10px">
+                        <tr class="formUpload">
+                            <td class="formUpload">Reserve resources:</td>
+                            <td class="formUpload"><input class="inputFile" type="file" name="data" /></td>
+                            <td class="formUpload"><button type="submit" style="float: left;"> Reserve </button></td>
+                        </tr>
+                      </table>
+                    </form>
+                  </td>
                   <td class="formUpload"><form action="delete_resources" method="post"><button type="submit" style="float: left;"> Delete </button></form></td>
                 </tr>
                 </table>
@@ -117,7 +146,7 @@
 
     <div id='status'>Ready...</div>
     <div id="urls">
-        <a href="/logout">logout</a>
+        <a href="http://docs.softfire.eu">Documentation</a> - User {{current_user.username}}: <a href="/logout">logout</a>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"
@@ -282,6 +311,10 @@
             width: 100%;
             border: 3px solid #ddd;
 
+        }
+
+        .inputFile {
+          border: 1px solid #111;
         }
 
         .formUpload {
