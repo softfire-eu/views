@@ -63,27 +63,11 @@
                                             %end
 
                                         </table>
-                                        <div id="whatever"></div>
-                                        <input type="button" value="Refresh" id="buttonRefresh" onClick='
-                                            document.getElementById("whatever").innerHTML="Loading...";
-                                            document.getElementById("buttonRefresh").disabled = true;
-                                        		$.ajax({
-                                                url: "/refresh_images",
-                                                type: "GET",
-                                        		    data: "{}",
-                                        		    dataType: "json",
-                                                contentType: "application/json",
-                                                success: function(result) {
-                                                    console.log(result);
-                                                    location.reload();
-                                                 }
-                                            });
-                                        	'/>
+
                                     </form>
                                 </div>
                         </td>
                         <td>
-                          <br />
 
                           <table class="listResTable" cellpadding="10px">
                             <colgroup>
@@ -103,6 +87,22 @@
                               </tr>
                               %end
                           </table>
+                          <div id="whatever" text-align="left"></div>
+                          <input type="button" value="Refresh" id="buttonRefresh" onClick='
+                              document.getElementById("whatever").innerHTML="Loading...";
+                              document.getElementById("buttonRefresh").disabled = true;
+                              $.ajax({
+                                  url: "/refresh_images",
+                                  type: "GET",
+                                  data: "{}",
+                                  dataType: "json",
+                                  contentType: "application/json",
+                                  success: function(result) {
+                                      console.log(result);
+                                      location.reload();
+                                   }
+                              });
+                            ' class="buttonRefresh"/>
                         </td>
                     </tr>
                 </table>
@@ -338,6 +338,13 @@
           border-collapse: collapse;
           margin: 0px auto;
           border: 0px
+        }
+
+        .buttonRefresh {
+          text-align: center;
+          margin: 0px auto;
+          left: 45%;
+          position: relative;
         }
 
         .listResTable {
