@@ -7,6 +7,7 @@
 </head>
 
 <body>
+    <font size="-1">
     <table class="formUpload" cellpadding="10px">
     <tr class="formUpload">
       <td class="formUpload">
@@ -60,8 +61,24 @@
                                                 <td>{{r['description']}}</td>
                                             </tr>
                                             %end
-                                        </table>
 
+                                        </table>
+                                        <div id="whatever"></div>
+                                        <input type="button" value="Refresh" id="buttonRefresh" onClick='
+                                            document.getElementById("whatever").innerHTML="Loading...";
+                                            document.getElementById("buttonRefresh").disabled = true;
+                                        		$.ajax({
+                                                url: "/refresh_images",
+                                                type: "GET",
+                                        		    data: "{}",
+                                        		    dataType: "json",
+                                                contentType: "application/json",
+                                                success: function(result) {
+                                                    console.log(result);
+                                                    location.reload();
+                                                 }
+                                            });
+                                        	'/>
                                     </form>
                                 </div>
                         </td>
@@ -217,7 +234,7 @@
         div#main {
             color: #777;
             margin: auto;
-            font-size: medium;
+            font-size: small;
             margin: auto;
             width: 20em;
             text-align: left;
@@ -332,6 +349,7 @@
         }
 
     </style>
+  </font>
 </body>
 
 </html>
