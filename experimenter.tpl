@@ -125,16 +125,11 @@
                         <tr class="formUpload">
                             <td class="formUpload">Reserve resources:</td>
                             <td class="formUpload">
-                              <!-- <form action="/reserve_resources" method="post" enctype="multipart/form-data">
-                                <input class="inputFile" type="file" name="data" />
-                                <input type="submit" style="float: left;" value="Reserve" />
-                              </form> -->
-                              <form action="/reserve_resources" method="post" enctype="multipart/form-data">
-                                Select a file: <input type="file" name="data" />
-                                <input type="submit" value="Start upload" />
+                              <form action="/reserve_resources" method="post" enctype="multipart/form-data" id="formId">
+                                Select a file: <input type="file" name="shit" id="inputId">
+                                <input type="submit" value="Start upload" >
                               </form>
                             </td>
-                            <!-- <td class="formUpload"></td> -->
                         </tr>
                       </table>
 
@@ -175,16 +170,18 @@
         <a href="/calendar">Calendar</a> - <a href="http://docs.softfire.eu">Documentation</a> - User {{current_user.username}}: <a href="/logout">logout</a>
     </div>
 
-    <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"
-            data-dojo-config="async: true"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
     <script>
         // Prevent form submission, send POST asynchronously and parse returned JSON
-        $("div#status").delay(2800).fadeOut(700);
+        // $("div#status").delay(2800).fadeOut(700);
+
         $('form').submit(function() {
             $("div#status").fadeIn(100);
+            $("div#status").text('Loading...');
             z = $(this);
-            $.post($(this).attr('action'), $(this).serialize(), function(j) {
+            console.log(z)
+            $.post($(this).attr('action'), new FormData(z), function(j) {
                 console.log('here')
                 console.log(j)
                 console.log('j: ' + j)
@@ -197,7 +194,8 @@
                     $("div#status").text(j.msg);
                 }
                 $("div#status").delay(1800).fadeOut(700);
-            }, "json");
+            });
+
             return false;
         });
     </script>
