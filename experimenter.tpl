@@ -15,7 +15,7 @@
         <h5>Welcome User {{current_user.username}}</h5>
       </td>
       <td class="formUpload">
-        <img src="static/softfire.jpg" alt="SoftFIRE" align="middle" class="heightSet">
+        <img src="static/softfire.jpg" alt="SoftFIRE" align="middle" class="heightSet" width="100%">
       </td>
     </tr>
     </table>
@@ -120,15 +120,24 @@
                 <tr class="formUpload">
                   <td class="formUpload"><h2>Your experiment {{experiment_id}}</h2></td>
                   <td class="formUpload">
-                    <form action="delete_resources" method="post">
+
                       <table class="formUpload" cellpadding="10px">
                         <tr class="formUpload">
                             <td class="formUpload">Reserve resources:</td>
-                            <td class="formUpload"><input class="inputFile" type="file" name="data" /></td>
-                            <td class="formUpload"><button type="submit" style="float: left;"> Reserve </button></td>
+                            <td class="formUpload">
+                              <!-- <form action="/reserve_resources" method="post" enctype="multipart/form-data">
+                                <input class="inputFile" type="file" name="data" />
+                                <input type="submit" style="float: left;" value="Reserve" />
+                              </form> -->
+                              <form action="/reserve_resources" method="post" enctype="multipart/form-data">
+                                Select a file: <input type="file" name="data" />
+                                <input type="submit" value="Start upload" />
+                              </form>
+                            </td>
+                            <!-- <td class="formUpload"></td> -->
                         </tr>
                       </table>
-                    </form>
+
                   </td>
                   <td class="formUpload"><form action="delete_resources" method="post"><button type="submit" style="float: left;"> Delete </button></form></td>
                 </tr>
@@ -163,7 +172,7 @@
 
     <div id='status'>Ready...</div>
     <div id="urls">
-        <a href="http://docs.softfire.eu">Documentation</a> - User {{current_user.username}}: <a href="/logout">logout</a>
+        <a href="/calendar">Calendar</a> - <a href="http://docs.softfire.eu">Documentation</a> - User {{current_user.username}}: <a href="/logout">logout</a>
     </div>
 
     <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"
