@@ -42,15 +42,17 @@
                                     <form action="list_resources" method="get">
                                         <table class="listResTable" cellpadding="10px">
                                           <colgroup>
-                                             <col span="1" style="width: 10%;">
-                                             <col span="1" style="width: 10%;">
+                                             <col span="1" style="width: 8%;">
+                                             <col span="1" style="width: 7%;">
                                              <col span="1" style="width: 5%;">
-                                             <col span="1" style="width: 30%;">
+                                             <col span="1" style="width: 5%;">
+                                             <col span="1" style="width: 750%;">
                                           </colgroup>
                                             <tr>
                                                 <th>Resource Id</th>
                                                 <th>NodeType</th>
                                                 <th>Cardinality</th>
+                                                <th>Testbed</th>
                                                 <th>Description</th>
                                             </tr>
                                             %for r in resources:
@@ -58,6 +60,7 @@
                                                 <td>{{r['resource_id']}}</td>
                                                 <td>{{r['node_type']}}</td>
                                                 <td>{{r['cardinality']}}</td>
+                                                <td>{{r['testbed']}}</td>
                                                 <td>{{r['description']}}</td>
                                             </tr>
                                             %end
@@ -88,7 +91,7 @@
                               %end
                           </table>
                           <div id="whatever" text-align="left"></div>
-                          <input type="button" value="Refresh" id="buttonRefresh" onClick='
+                          <button id="buttonRefresh" onClick='
                               document.getElementById("whatever").innerHTML="Loading...";
                               document.getElementById("buttonRefresh").disabled = true;
                               $.ajax({
@@ -102,7 +105,7 @@
                                       location.reload();
                                    }
                               });
-                            ' class="buttonRefresh"/>
+                            ' class="myButton" style="width: 75%; left: 10%;position: relative; margin: 0px auto;">Refresh</button>
                         </td>
                     </tr>
                 </table>
@@ -113,8 +116,9 @@
             <td style="padding: 10px; padding-bottom: 50px">
               <table class="formUpload" cellpadding="10px">
                 <colgroup>
+                   <col span="1" style="width: 30%;">
                    <col span="1" style="width: 50%;">
-                   <col span="1" style="width: 40%;">
+                   <col span="1" style="width: 10%;">
                    <col span="1" style="width: 10%;">
                 </colgroup>
                 <tr class="formUpload">
@@ -123,18 +127,29 @@
 
                       <table class="formUpload" cellpadding="10px">
                         <tr class="formUpload">
-                            <td class="formUpload">Reserve resources:</td>
+                            <td class="formUpload">
+                              <div id="reserveResources" class="reserveResources"> Reserve resources:</div>
+                            </td>
                             <td class="formUpload">
                               <form action="/reserve_resources" method="post" enctype="multipart/form-data" id="formId">
-                                Select a file: <input type="file" name="shit" id="inputId">
-                                <input type="submit" value="Start upload" >
+                                Select a file: <input type="file" name="data" id="inputId" style="width: 150px">
+                                <button type="submit" class="myButton" >Start upload</button>
                               </form>
                             </td>
                         </tr>
                       </table>
 
                   </td>
-                  <td class="formUpload"><form action="delete_resources" method="post"><button type="submit" style="float: left;"> Delete </button></form></td>
+                  <td class="formUpload">
+                    <form action="/provide_resources" method="post">
+                      <button type="submit" style="float: left;" class="myButton"> Deploy </button>
+                    </form>
+                  </td>
+                  <td class="formUpload">
+                    <form action="/release_resources" method="post">
+                      <button type="submit" style="float: left;" class="myButton"> Delete </button>
+                    </form>
+                  </td>
                 </tr>
                 </table>
 
@@ -152,7 +167,7 @@
                     </tr>
                     %for er in experiment_resources:
                     <tr>
-                        <td>{{er['name']}}</td>
+                        <td>{{er['resource_id']}}</td>
                         <td>{{er['status']}}</td>
                         <td>{{er['value']}}</td>
                     </tr>
@@ -165,7 +180,7 @@
 
     <div class="clear"></div>
 
-    <div id='status'>Ready...</div>
+    <!-- <div id='status'>Ready...</div> -->
     <div id="urls">
         <a href="/calendar">Calendar</a> - <a href="http://docs.softfire.eu">Documentation</a> - User {{current_user.username}}: <a href="/logout">logout</a>
     </div>
@@ -201,6 +216,109 @@
     </script>
 
     <style>
+        div#reserveResources {
+          /*font-size: 20px;
+          border-radius: 5px;
+          border-left: 0px;
+          border-top: 0px;
+          border-bottom: 2px Solid grey;
+          border-right: 2px Solid grey;
+          background-color: #FFA93F;
+          padding: 5px;*/
+          /*-moz-box-shadow:inset 0px 1px 0px 0px #fff6af;*/
+        	/*-webkit-box-shadow:inset 0px 1px 0px 0px #fff6af;*/
+        	/*box-shadow:inset 0px 1px 0px 0px #fff6af;*/
+        	/*background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffd966), color-stop(1, #ffab23));
+        	background:-moz-linear-gradient(top, #ffd966 5%, #ffab23 100%);
+        	background:-webkit-linear-gradient(top, #ffd966 5%, #ffab23 100%);
+        	background:-o-linear-gradient(top, #ffd966 5%, #ffab23 100%);
+        	background:-ms-linear-gradient(top, #ffd966 5%, #ffab23 100%);
+        	background:linear-gradient(to bottom, #ffd966 5%, #ffab23 100%);*/
+        	/*filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd966', endColorstr='#ffab23',GradientType=0);*/
+        	/*background-color:darkorange;*/
+        	-moz-border-radius:6px;
+        	-webkit-border-radius:6px;
+        	border-radius:6px;
+
+        	display:inline-block;
+        	color:#333333;
+        	font-family:Arial;
+        	font-size:15px;
+        	font-weight:bold;
+        	padding:9px 27px;
+        	text-decoration:none;
+        }
+
+        /*button {
+          font-size: 30px;
+          border-radius: 5px;
+          border-left: 0px;
+          border-top: 0px;
+          background-color: orange;
+        }*/
+
+        .myButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #fff6af;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #fff6af;
+	box-shadow:inset 0px 1px 0px 0px #fff6af;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffd966), color-stop(1, #ffab23));
+	background:-moz-linear-gradient(top, #ffd966 5%, #ffab23 100%);
+	background:-webkit-linear-gradient(top, #ffd966 5%, #ffab23 100%);
+	background:-o-linear-gradient(top, #ffd966 5%, #ffab23 100%);
+	background:-ms-linear-gradient(top, #ffd966 5%, #ffab23 100%);
+	background:linear-gradient(to bottom, #ffd966 5%, #ffab23 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffd966', endColorstr='#ffab23',GradientType=0);
+	background-color:#ffd966;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #ffaa22;
+	display:inline-block;
+	cursor:pointer;
+	color:#333333;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:9px 27px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #ffee66;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffab23), color-stop(1, #ffd966));
+	background:-moz-linear-gradient(top, #ffab23 5%, #ffd966 100%);
+	background:-webkit-linear-gradient(top, #ffab23 5%, #ffd966 100%);
+	background:-o-linear-gradient(top, #ffab23 5%, #ffd966 100%);
+	background:-ms-linear-gradient(top, #ffab23 5%, #ffd966 100%);
+	background:linear-gradient(to bottom, #ffab23 5%, #ffd966 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffab23', endColorstr='#ffd966',GradientType=0);
+	background-color:#ffab23;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+input
+{
+    border-radius: .2em;
+    border: 1px solid #cccccc;
+
+    -webkit-transition: border linear .2s, box-shadow linear .2s;
+    -moz-transition: border linear .2s, box-shadow linear .2s;
+    -o-transition: border linear .2s, box-shadow linear .2s;
+    transition: border linear .2s, box-shadow linear .2s;
+}
+
+input:focus
+{
+    border-color: rgba(82, 168, 236, 0.8);
+    outline: 0;
+    outline: thin dotted \9;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px     rgba(82,168,236,.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+}
+
         h1 {
             color: #111;
             font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
@@ -349,9 +467,13 @@
 
         .buttonRefresh {
           text-align: center;
+          font-size: 10pt;
           margin: 0px auto;
-          left: 45%;
+          left: 10%;
+          width: 85%;
           position: relative;
+          /*padding-left: 130px;
+          padding-right: 130px*/
         }
 
         .listResTable {
