@@ -56,8 +56,20 @@
 </style>
 </head>
 <body>
-
 	<div id='calendar'></div>
-
+  <div id="urls">
+  <a href="/experimenter">Experiment</a> - <a href="http://docs.softfire.eu">Documentation</a> - User {{current_user.username}}: <a href="/logout">logout</a>
+  </div>
+<style>
+div#urls {
+    position: absolute;
+    top: 0;
+    right: 1em;
+    font-size: large;
+    box-shadow: inset 0 1px 1px darkgray, 0 0 8px darkgray;
+    padding: 3px 3px 3px 3px;
+    font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+}
+</style>
 </body>
 </html>
