@@ -29,51 +29,10 @@
       </div>
     </div>
     <div id="box" >
-      <div id='status' align="center" class="divMiddle">Ready...</div>
+      <div id='status' align="center" class="divMiddle"></div>
     </div>
     <div id="box">
       <br />
-      <!--
-      <div class="box">
-        <h2>Signup</h2>
-        <p>Please insert your credentials:</p>
-        <form action="register" method="post" name="signup">
-          <table class="centerTable">
-            <tr>
-              <td><label class="loginLabel">Username: </label></td>
-              <td><input type="text" name="username" /></td>
-            </tr>
-            <tr>
-              <td><label class="loginLabel">Password: </label></td>
-              <td><input type="password" name="password" /></td>
-            </tr>
-            <tr>
-              <td><label class="loginLabel">Email: </label></td>
-              <td><input type="text" name="email_address" /></td>
-            </tr>
-          </table>
-          <br/><br/>
-          <button type="submit"> OK </button>
-          <button type="button" class="close"> Cancel </button>
-        </form>
-        <br />
-      </div>
-    -->
-      <!--
-        <div class="box">
-            <h2>Password reset</h2>
-            <p>Please insert your credentials:</p>
-            <form action="reset_password" method="post" name="password_reset">
-                <input type="text" name="username" value="username"/>
-                <input type="text" name="email_address" value="email address"/>
-
-                <br/><br/>
-                <button type="submit" > OK </button>
-                <button type="button" class="close"> Cancel </button>
-            </form>
-            <br />
-        </div>
-        -->
       <br style="clear: left;" />
     </div>
     <!-- Bootstrap Core CSS
@@ -137,7 +96,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script>
         // Prevent form submission, send POST asynchronously and parse returned JSON
-        $("div#status").delay(2800).fadeOut(700);
+        $("div#status").hide();
         $('form').submit(function() {
             $("div#status").fadeIn(100);
             z = $(this);
@@ -146,8 +105,6 @@
               console.log(j)
               console.log('j: ' + j)
               if (j.ok) {
-                $("div#status").css("background-color", "#f0fff0");
-                $("div#status").text('Ok.');
                 window.location = j.redirect;
               } else {
                 $("div#status").css("background-color", "#fff0f0");

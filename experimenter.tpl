@@ -4,6 +4,8 @@
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type">
     <link rel="shortcut icon" type="image/png" href="static/favicon.ico" />
+    <script type="text/javascript" src="http://caldwell.github.io/renderjson/renderjson.js"></script>
+    <title>SoftFIRE middleware</title>
 </head>
 
 <body>
@@ -154,16 +156,14 @@
                 </table>
 
 
-                <table class="experimentTable" cellpadding="10px">
+                <table class="experimentTable" id="experimentValue" cellpadding="10px">
                   <colgroup>
                      <col span="1" style="width: 20%;">
                      <col span="1" style="width: 10%;">
                      <col span="1" style="width: 70%;">
                   </colgroup>
                     <tr>
-                        <th>Resource Id</th>
-                        <th>Status</th>
-                        <th>Value</th>
+                        <th>Resource Id</th><th>Status</th><th>Value</th>
                     </tr>
                     %for er in experiment_resources:
                     <tr>
@@ -190,7 +190,8 @@
     <script>
         // Prevent form submission, send POST asynchronously and parse returned JSON
         // $("div#status").delay(2800).fadeOut(700);
-
+        var updateTimer;
+        var count = 0;
         $('form').submit(function() {
             $("div#status").fadeIn(100);
             $("div#status").text('Loading...');
@@ -213,6 +214,41 @@
 
             return false;
         });
+
+        $(document).ready(function() {
+          ajaxd();
+          updateTimer = setInterval("ajaxd()", 5000);
+        });
+
+        function ajaxd() {
+          if (count++ == 25){
+            clearInterval(updateTimer);
+            return;
+          }
+          $.ajax({
+           type: "GET",
+           url: "get_status",
+           contentType: 'application/json',
+           dataType: "json",
+           success: function(value){
+            //  console.log(value);
+
+             $('#experimentValue tr').remove();
+             $('#experimentValue').append('<tr><th>Resource Id</th><th>Status</th><th>Value</th></tr>');
+
+             for (var i = 0; i < value.length; i++) {
+              // j = JSON.stringify(JSON.parse(value[i]['value']), null, 2)
+              j = renderjson.set_show_to_level(1).set_icons('+', '-')(JSON.parse(value[i]['value']))
+               $('#experimentValue').append(
+                 $('<tr>').append('<td>' + value[i]['resource_id'] + '</td><td>' + value[i]['status'] + '</td>').append($('<td>').append(j))
+                 )
+             }
+
+            //  .innerHTML = JSON.stringify(value[0]['resource_id'],null,2)
+            //  $(msg).appendTo("#edix");
+           }
+         });
+        }
     </script>
 
     <style>
