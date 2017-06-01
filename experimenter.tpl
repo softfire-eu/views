@@ -42,6 +42,7 @@
                             <br />
                                 <div id='commands'>
                                     <form action="list_resources" method="get">
+                                      <div style="height:100%;overflow:auto;">
                                         <table class="listResTable" cellpadding="10px">
                                           <colgroup>
                                              <col span="1" style="width: 8%;">
@@ -68,7 +69,7 @@
                                             %end
 
                                         </table>
-
+                                      </div>
                                     </form>
                                 </div>
                         </td>
@@ -192,6 +193,7 @@
         // $("div#status").delay(2800).fadeOut(700);
         var updateTimer;
         var count = 0;
+
         $('form').submit(function() {
             $("div#status").fadeIn(100);
             $("div#status").text('Loading...');

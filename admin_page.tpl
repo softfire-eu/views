@@ -60,6 +60,7 @@
                 %end
             </table>
             <br/>
+            <br/>
             <table>
                 <tr>
                     <th>Role</th>
@@ -69,6 +70,29 @@
                 <tr>
                     <td>{{r[0]}}</td>
                     <td>{{r[1]}}</td>
+                </tr>
+                %end
+            </table>
+            <br/>
+            <br/>
+            <table>
+                <tr>
+                    <th>Managers</th>
+                </tr>
+                %for m in managers:
+                <tr>
+                    <td>{{m}}</td>
+                </tr>
+                %end
+            </table>
+            <br/><br/>
+            <table>
+                <tr>
+                    <th>Experimeneter</th>
+                </tr>
+                %for m in experimenters:
+                <tr>
+                    <td>{{m}}</td>
                 </tr>
                 %end
             </table>
