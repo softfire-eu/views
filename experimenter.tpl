@@ -42,7 +42,7 @@
                             <br />
                                 <div id='commands'>
                                     <form action="list_resources" method="get">
-                                      <div style="height:100%;overflow:auto;">
+                                      <div style="max-height: 400px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
                                         <table class="listResTable" cellpadding="10px">
                                           <colgroup>
                                              <col span="1" style="width: 8%;">
