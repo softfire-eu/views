@@ -6,6 +6,10 @@
     <link rel="shortcut icon" type="image/png" href="static/favicon.ico" />
     <script type="text/javascript" src="http://caldwell.github.io/renderjson/renderjson.js"></script>
     <title>SoftFIRE middleware</title>
+    <link rel="stylesheet" type="text/css" href="static/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="static/demo.css" />
+    <link rel="stylesheet" type="text/css" href="static/component.css" />
+    <script src="static/modernizr.custom.js"></script>
 </head>
 
 <body>
@@ -14,7 +18,16 @@
     <tr class="formUpload">
       <td class="formUpload">
         <h1>Experimenter Page</h1>
-        <h5>Welcome User {{current_user.username}}</h5>
+        <h5>User {{current_user.username}}</h5>
+        <nav class="cl-effect-4" style="color: black; text-align: center">
+  				<p>
+            <a href="/calendar"><span data-hover="Calendar">Calendar</span></a>
+            <a href="http://docs.softfire.eu"><span data-hover="Documentation">Documentation</span></a>
+          </p>
+          <p style="position: relative; left: -5%">
+            <a href="/logout"><span>Logout</span></a>
+          </p>
+  			</nav>
       </td>
       <td class="formUpload">
         <img src="static/softfire.jpg" alt="SoftFIRE" align="middle" class="heightSet" width="100%">
@@ -182,9 +195,9 @@
     <div class="clear"></div>
 
     <!-- <div id='status'>Ready...</div> -->
-    <div id="urls">
+    <!-- <div id="urls">
         <a href="/calendar">Calendar</a> - <a href="http://docs.softfire.eu">Documentation</a> - User {{current_user.username}}: <a href="/logout">logout</a>
-    </div>
+    </div> -->
 
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.js"></script>
@@ -240,10 +253,17 @@
 
              for (var i = 0; i < value.length; i++) {
               // j = JSON.stringify(JSON.parse(value[i]['value']), null, 2)
-              j = renderjson.set_show_to_level(1).set_icons('+', '-')(JSON.parse(value[i]['value']))
-               $('#experimentValue').append(
-                 $('<tr>').append('<td>' + value[i]['resource_id'] + '</td><td>' + value[i]['status'] + '</td>').append($('<td>').append(j))
-                 )
+              try {
+                j = renderjson.set_show_to_level(1).set_icons('+', '-')(JSON.parse(value[i]['value']))
+
+              } catch (e) {
+                j = $("<div>").innerHTML = value[i]['value']
+              } finally {
+                $('#experimentValue').append(
+                  $('<tr>').append('<td>' + value[i]['resource_id'] + '</td><td>' + value[i]['status'] + '</td>').append($('<td>').append(j))
+                  )
+              }
+
              }
 
             //  .innerHTML = JSON.stringify(value[0]['resource_id'],null,2)
@@ -365,6 +385,7 @@ input:focus
             letter-spacing: -1px;
             line-height: 1;
             text-align: center;
+                text-transform: uppercase;
         }
         h5 {
             color: #111;
@@ -374,6 +395,12 @@ input:focus
             letter-spacing: -1px;
             line-height: 1;
             text-align: center;
+            text-transform: uppercase;
+        }
+
+        a {
+          margin-right: 10px;
+          margin-left: 10px;
         }
 
         img {
