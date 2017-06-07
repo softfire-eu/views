@@ -12,7 +12,7 @@
         <p>Welcome {{current_user.username}}, your role is: {{current_user.role}}, access time: {{current_user.session_accessed_time}}</p>
         <div id='commands'>
             <p>Create new user:</p>
-            <form action="create_user" method="post">
+            <form action="create_user" method="post" class="ajax">
                 <p><label>Username</label> <input type="text" name="username" /></p>
                 <p><label>Role</label> <input type="text" name="role" /></p>
                 <p><label>Password</label> <input type="password" name="password" /></p>
@@ -21,14 +21,14 @@
             </form>
             <br />
             <p>Delete user:</p>
-            <form action="delete_user" method="post">
+            <form action="delete_user" method="post" class="ajax">
                 <p><label>Username</label> <input type="text" name="username" /></p>
                 <button type="submit"> OK </button>
                 <button type="button" class="close"> Cancel </button>
             </form>
             <br />
             <p>Create new role:</p>
-            <form action="create_role" method="post">
+            <form action="create_role" method="post" class="ajax">
                 <p><label>Role</label> <input type="text" name="role" /></p>
                 <p><label>Level</label> <input type="text" name="level" /></p>
                 <button type="submit"> OK </button>
@@ -36,7 +36,7 @@
             </form>
             <br />
             <p>Delete role:</p>
-            <form action="delete_role" method="post">
+            <form action="delete_role" method="post" class="ajax">
                 <p><label>Role</label> <input type="text" name="role" /></p>
                 <button type="submit"> OK </button>
                 <button type="button" class="close"> Cancel </button>
@@ -97,6 +97,15 @@
                 %end
             </table>
             <p>(Reload page to refresh)</p>
+            <br />
+            <p>Generate openvpn cert:</p>
+            <form action="certificates" method="post" class="return">
+              <p><label>Username</label> <input type="text" name="username" /></p>
+                <p><label>Password</label> <input type="text" name="password" /></p>
+                <p><label>days</label> <input type="text" name="days" value="1"/></p>
+                <button type="submit"> OK </button>
+            </form>
+            <br />
         </div>
 
         <div class="clear"></div>
@@ -110,7 +119,7 @@
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script>
             // Prevent form submission, send POST asynchronously and parse returned JSON
-            $('form').submit(function() {
+            $('form.ajax').submit(function() {
                 $("div#status").fadeIn(100);
                 z = $(this);
                 $.post($(this).attr('action'), $(this).serialize(), function(j){
