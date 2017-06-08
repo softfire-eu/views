@@ -87,12 +87,10 @@
                                 </div>
                         </td>
                         <td>
-
+                          <div style="max-height: 390px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
                           <table class="listResTable" cellpadding="10px">
                             <colgroup>
-                               <col span="1" style="width: 10%;">
-                               <col span="1" style="width: 10%;">
-                               <col span="1" style="width: 5%;">
+                               <col span="1" style="width: 70%;">
                                <col span="1" style="width: 30%;">
                             </colgroup>
                               <tr>
@@ -106,6 +104,41 @@
                               </tr>
                               %end
                           </table>
+                          <br />
+                          <table class="listResTable" cellpadding="10px">
+                            <colgroup>
+                               <col span="1" style="width: 70%;">
+                               <col span="1" style="width: 30%;">
+                            </colgroup>
+                              <tr>
+                                  <th>Network name</th>
+                                  <th>Testbed</th>
+                              </tr>
+                              %for i in networks:
+                              <tr>
+                                  <td>{{i['resource_id']}}</td>
+                                  <td>{{i['testbed']}}</td>
+                              </tr>
+                              %end
+                          </table>
+                          <br />
+                          <table class="listResTable" cellpadding="10px">
+                            <colgroup>
+                               <col span="1" style="width: 70%;">
+                               <col span="1" style="width: 30%;">
+                            </colgroup>
+                              <tr>
+                                  <th>Flavour name</th>
+                                  <th>Testbed</th>
+                              </tr>
+                              %for i in flavours:
+                              <tr>
+                                  <td>{{i['resource_id']}}</td>
+                                  <td>{{i['testbed']}}</td>
+                              </tr>
+                              %end
+                          </table>
+                        </div>
                           <div id="whatever" text-align="left"></div>
                           <button id="buttonRefresh" onClick='
                               document.getElementById("whatever").innerHTML="Loading...";

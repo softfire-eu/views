@@ -134,13 +134,7 @@ a {
 			<h1>Calendar Page</h1>
 			<h5>User: {{current_user.username}}</h5>
 			<nav class="cl-effect-4" style="color: black; text-align: center">
-				<p>
-					<a href="/calendar"><span data-hover="Calendar">Calendar</span></a>
-					<a href="http://docs.softfire.eu"><span data-hover="Documentation">Documentation</span></a>
-				</p>
-				<p style="position: relative; left: -5%">
-					<a href="/logout"><span>Logout</span></a>
-				</p>
+				<a href="/experimenter"><span data-hover="Experiment">Experiment</span></a> <a href="http://docs.softfire.eu"><span data-hover="Documentation">Documentation</span></a>
 			</nav>
 			<img src="static/softfire.jpg" alt="SoftFIRE" align="middle" class="heightSet" width="100%">
 		</td>
