@@ -87,7 +87,7 @@
                                 </div>
                         </td>
                         <td>
-                          <div style="max-height: 347px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
+                          <div style="max-height: 320px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
                           <table class="listResTable" cellpadding="10px">
                             <colgroup>
                                <col span="1" style="width: 70%;">
