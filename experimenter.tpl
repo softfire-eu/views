@@ -162,6 +162,20 @@
         </tr>
 
         <tr>
+            <td class="formUpload">
+                <form action="/add_resource" method="post" enctype="multipart/form-data">
+                  Select a file: <input type="file" name="upload" id="inputId" style="width: 150px">
+                  Resource ID <input type="input" name="id" />
+                  Node type <input type="input" name="node_type" />
+                  Cardinality <input type="input" name="cardinality" />
+                  Description <input type="input" name="description" />
+                  Testbed <input type="input" name="testbed" />
+                  <button type="submit" style="float: left;" class="myButton"> Add resource </button>
+                </form>
+            </td>
+        </tr>
+
+        <tr>
             <td style="padding: 10px; padding-bottom: 50px">
               <table class="formUpload" cellpadding="10px">
                 <colgroup>
