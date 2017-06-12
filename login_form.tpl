@@ -93,7 +93,7 @@
       }
     </style>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="static/jquery.min.js"></script>
     <script>
         // Prevent form submission, send POST asynchronously and parse returned JSON
         $("div#status").hide();
