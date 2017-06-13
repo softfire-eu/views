@@ -31,6 +31,9 @@
 
 	$(document).ready(function() {
 
+		events = []
+
+
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
@@ -48,29 +51,64 @@
 					title: "{{u['resource_id']}}",
 					start: "{{u['start']}}",
 					end: "{{u['end']}}"
+					color: stringToColour("{{u['resource_id']}}")
 				},
         % end
 			],
-      eventColor: stringToColour("{{u['resource_id']}}")
+
 		});
 
 	});
 
 </script>
 <style>
-a {
-	margin-right: 10px;
-	margin-left: 10px;
-}
-	body {
-		margin: 40px 10px;
-		padding: 0;
-		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-		font-size: 14px;
+	a {
+		margin-right: 10px;
+		margin-left: 10px;
 	}
 
+	html {
+		padding:0px;
+		margin:0px;
+	}
+	body {
+		font-size: 14px;
+		font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+		color:#564b47;
+		padding:0px 20px;
+		margin:0px;
+	}
+	#content {
+		margin-top: 30px;
+		margin-left: 300px;
+		background-color:#fff;
+		overflow: auto;
+	}
+
+	#menu {
+		position: absolute;
+		width: 300px;
+		left: 20px;
+		padding:0px;
+		margin:0px
+	}
+
+	ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	li {
+		font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+		text-align: left;
+		border-bottom: 1px solid #ccc;
+		padding-top: 20px
+	}
+
+
 	#calendar {
-		width: 100%;
+		width: 75%;
 		margin: 0 auto;
 		font-size: 14px;
 	}
@@ -82,20 +120,22 @@ a {
 	h1 {
 			color: #111;
 			font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
-			font-size: 45pt;
-			font-weight: bold;
-			letter-spacing: -1px;
-			line-height: 1;
-			text-align: center;
-	}
-	h5 {
-			color: #111;
-			font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
 			font-size: 25pt;
 			font-weight: bold;
 			letter-spacing: -1px;
 			line-height: 1;
-			text-align: center;
+			text-align: left;
+					text-transform: uppercase;
+	}
+	h5 {
+			color: #111;
+			font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+			font-size: 15pt;
+			font-weight: bold;
+			letter-spacing: -1px;
+			line-height: 1;
+			text-align: left;
+			text-transform: uppercase;
 	}
 	img {
 			display: block;
@@ -124,24 +164,27 @@ a {
 </head>
 <body>
 
-	<table class="formUpload" cellpadding="10px">
-		<colgroup>
-			 <col span="1" style="width: 30%;">
-			 <col span="1" style="width: 70%;">
-		</colgroup>
-	<tr class="formUpload">
-		<td class="formUpload">
-			<h1>Calendar Page</h1>
-			<h5>User: {{current_user.username}}</h5>
+	<div id="menu" style="text-align: left">
+			<img src="static/softfire.jpg" alt="SoftFIRE" align="left" class="heightSet" width="100%">
+			<h1>Calendar</h1>
+			<h5>User {{current_user.username}}</h5>
 			<nav class="cl-effect-4" style="color: black; text-align: center">
-				<a href="/experimenter"><span data-hover="Experiment">Experiment</span></a> <a href="http://docs.softfire.eu"><span data-hover="Documentation">Documentation</span></a>
+					<ul>
+							<li>
+									<a href="/experimenter"><span data-hover="Experiment">Experiment</span></a>
+							</li>
+							<li>
+									<a href="http://docs.softfire.eu"><span data-hover="Documentation">Documentation</span></a>
+							</li>
+							<li>
+									<a href="/logout"><span>Logout</span></a>
+							</li>
+					</ul>
 			</nav>
-			<img src="static/softfire.jpg" alt="SoftFIRE" align="middle" class="heightSet" width="100%">
-		</td>
-		<td class="formUpload">
-			<div id='calendar'></div>
-		</td>
-	</tr>
-	</table>
+	</div>
+	<div id="content">
+		<div id='calendar'></div>
+	</div>
+
 </body>
 </html>
