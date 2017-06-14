@@ -121,9 +121,11 @@
                   <td>
                       <div class="tab">
                         <button class="tablinks" onclick="openTable(event, 'availableResources')">SoftFIRE Resources</button>
+                        <button class="tablinks" onclick="openTable(event, 'availableUserResources')">User Resources</button>
                         <button class="tablinks" onclick="openTable(event, 'availableImages')">Images</button>
                         <button class="tablinks" onclick="openTable(event, 'availableNetworks')">Networks</button>
                         <button class="tablinks" onclick="openTable(event, 'availableFalvors')">Flavors</button>
+
                         <button class="tablinksRight" name="Refresh" onclick='refreshResources()'>
                             <img src="static/refresh_yellow.svg" alt="Refresh">
                           </button>
@@ -147,6 +149,37 @@
                                     <th>Description</th>
                                 </tr>
                                 %for r in resources:
+                                <tr>
+                                    <td>{{r['resource_id']}}</td>
+                                    <td>{{r['node_type']}}</td>
+                                    <td>{{r['cardinality']}}</td>
+                                    <td>{{r['testbed']}}</td>
+                                    <td>{{r['description']}}</td>
+                                </tr>
+                                %end
+
+                            </table>
+                        </div>
+                      </div>
+
+                      <div id="availableUserResources" class="tabcontent">
+                        <div style="max-height: 400px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;margin: 10px auto">
+                            <table class="listResTable" cellpadding="10px">
+                                <colgroup>
+                                    <col span="1" style="width: 8%;">
+                                    <col span="1" style="width: 7%;">
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 750%;">
+                                </colgroup>
+                                <tr>
+                                    <th>Resource Id</th>
+                                    <th>NodeType</th>
+                                    <th>Cardinality</th>
+                                    <th>Testbed</th>
+                                    <th>Description</th>
+                                </tr>
+                                %for r in user_resources:
                                 <tr>
                                     <td>{{r['resource_id']}}</td>
                                     <td>{{r['node_type']}}</td>
@@ -443,7 +476,6 @@
               position: relative;
               top: 10px;
               border: none;
-              border-left: 1px solid gray;
               border-right: 1px solid gray;
               outline: none;
               font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
