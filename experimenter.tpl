@@ -16,7 +16,7 @@
 <body>
     <font size="-1">
         <!-- The Modal -->
-        <div id="myModal" class="modal">
+        <div id="addResModal" class="modal">
 
             <!-- Modal content -->
             <div class="modal-content">
@@ -30,23 +30,23 @@
                                 <col span="1" style="width: 30%;">
                             </colgroup>
                             <tr>
-                                <td>Select a file: </td>
+                                <td> Select a file: </td>
                                 <td><input type="file" name="upload" id="inputId" style="width: 250px"></td>
                             </tr>
                             <tr>
-                                <td>Resource ID </td>
+                                <td> Resource ID </td>
                                 <td><input type="input" name="id" style="width: 250px" /></td>
                             </tr>
                             <tr>
-                                <td>Node type</td>
+                                <td> Node type</td>
                                 <td><input type="input" name="node_type" style="width: 250px" /></td>
                             </tr>
                             <tr>
-                                <td>Cardinality </td>
+                                <td> Cardinality </td>
                                 <td><input type="input" name="cardinality" style="width: 250px" /> </td>
                             </tr>
                             <tr>
-                                <td>Description </td>
+                                <td> Description </td>
                                 <td> <input type="input" name="description" style="width: 250px" /> </td>
                             </tr>
                             <tr>
@@ -60,6 +60,34 @@
                     </form>
                 </p>
             </div>
+
+
+        </div>
+        <div id="reserveModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h5>Reserve resource</h5>
+                <p>
+                    <form action="/reserve_resources" method="post" enctype="multipart/form-data" id="formId">
+                        <table class="formUpload" cellpadding="10px">
+                            <colgroup>
+                                <col span="1" style="width: 20%;">
+                                <col span="1" style="width: 30%;">
+                            </colgroup>
+                            <tr>
+                                <td>Select a file: </td>
+                                <td><input type="file" name="data" id="inputId" style="width: 150px"></td>
+                            </tr>
+
+                        </table>
+                        <br />
+                        <span><button type="submit" class="myButton">Start upload</button></span>
+                    </form>
+                </p>
+            </div>
+
 
         </div>
         <div id="menu" style="text-align: left">
@@ -75,7 +103,10 @@
                         <a href="http://docs.softfire.eu"><span data-hover="Documentation">Documentation</span></a>
                     </li>
                     <li>
-                        <a href="#" id="myBtn"><span>Add resource</span></a>
+                        <a href="#" id="reserveBtn"><span>Reserve resource</span></a>
+                    </li>
+                    <li>
+                        <a href="#" id="addResBtn"><span>Add resource</span></a>
                     </li>
                     <li>
                         <a href="/logout"><span>Logout</span></a>
@@ -87,174 +118,121 @@
         <div id="content">
             <table>
                 <tr>
-                    <td>
-                        <table class="main">
+                  <td>
+                      <div class="tab">
+                        <button class="tablinks" onclick="openTable(event, 'availableResources')">SoftFIRE Resources</button>
+                        <button class="tablinks" onclick="openTable(event, 'availableImages')">Images</button>
+                        <button class="tablinks" onclick="openTable(event, 'availableNetworks')">Networks</button>
+                        <button class="tablinks" onclick="openTable(event, 'availableFalvors')">Flavors</button>
+                        <button class="tablinksRight" name="Refresh" onclick='refreshResources()'>
+                            <img src="static/refresh_yellow.svg" alt="Refresh">
+                          </button>
+                      </div>
+
+                      <div id="availableResources" class="tabcontent">
+                        <div style="max-height: 400px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;margin: 10px auto">
+                            <table class="listResTable" cellpadding="10px">
+                                <colgroup>
+                                    <col span="1" style="width: 8%;">
+                                    <col span="1" style="width: 7%;">
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 5%;">
+                                    <col span="1" style="width: 750%;">
+                                </colgroup>
+                                <tr>
+                                    <th>Resource Id</th>
+                                    <th>NodeType</th>
+                                    <th>Cardinality</th>
+                                    <th>Testbed</th>
+                                    <th>Description</th>
+                                </tr>
+                                %for r in resources:
+                                <tr>
+                                    <td>{{r['resource_id']}}</td>
+                                    <td>{{r['node_type']}}</td>
+                                    <td>{{r['cardinality']}}</td>
+                                    <td>{{r['testbed']}}</td>
+                                    <td>{{r['description']}}</td>
+                                </tr>
+                                %end
+
+                            </table>
+                        </div>
+                      </div>
+
+                      <div id="availableImages" class="tabcontent">
+                        <div style="max-height: 320px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
+                            <table class="listResTable" cellpadding="10px">
+                                <colgroup>
+                                    <col span="1" style="width: 40%;">
+                                    <col span="1" style="width: 30%;">
+                                </colgroup>
+                                <tr>
+                                    <th>Image name</th>
+                                    <th>Testbed</th>
+                                </tr>
+                                %for i in images:
+                                <tr>
+                                    <td>{{i['resource_id']}}</td>
+                                    <td>{{i['testbed']}}</td>
+                                </tr>
+                                %end
+                            </table>
+                          </div>
+                      </div>
+
+                      <div id="availableNetworks" class="tabcontent">
+                        <div style="max-height: 320px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
+
+
+                        <table class="listResTable" cellpadding="10px">
                             <colgroup>
-                                <col span="1" style="width: 70%;">
+                                <col span="1" style="width: 40%;">
                                 <col span="1" style="width: 30%;">
                             </colgroup>
                             <tr>
-                                <th id="main">
-                                    <h2>Available Resources</h2>
-                                </th>
-                                <th id="main">
-                                    <h2>Available images</h2>
-                                </th>
+                                <th>Network name</th>
+                                <th>Testbed</th>
                             </tr>
+                            %for i in networks:
                             <tr>
-                                <td>
-                                    <br />
-                                    <div id='commands'>
-                                        <form action="list_resources" method="get">
-                                            <div style="max-height: 400px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
-                                                <table class="listResTable" cellpadding="10px">
-                                                    <colgroup>
-                                                        <col span="1" style="width: 8%;">
-                                                        <col span="1" style="width: 7%;">
-                                                        <col span="1" style="width: 5%;">
-                                                        <col span="1" style="width: 5%;">
-                                                        <col span="1" style="width: 750%;">
-                                                    </colgroup>
-                                                    <tr>
-                                                        <th>Resource Id</th>
-                                                        <th>NodeType</th>
-                                                        <th>Cardinality</th>
-                                                        <th>Testbed</th>
-                                                        <th>Description</th>
-                                                    </tr>
-                                                    %for r in resources:
-                                                    <tr>
-                                                        <td>{{r['resource_id']}}</td>
-                                                        <td>{{r['node_type']}}</td>
-                                                        <td>{{r['cardinality']}}</td>
-                                                        <td>{{r['testbed']}}</td>
-                                                        <td>{{r['description']}}</td>
-                                                    </tr>
-                                                    %end
-
-                                                </table>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div style="max-height: 320px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
-                                        <table class="listResTable" cellpadding="10px">
-                                            <colgroup>
-                                                <col span="1" style="width: 70%;">
-                                                <col span="1" style="width: 30%;">
-                                            </colgroup>
-                                            <tr>
-                                                <th>Image name</th>
-                                                <th>Testbed</th>
-                                            </tr>
-                                            %for i in images:
-                                            <tr>
-                                                <td>{{i['resource_id']}}</td>
-                                                <td>{{i['testbed']}}</td>
-                                            </tr>
-                                            %end
-                                        </table>
-                                        <br />
-                                        <table class="listResTable" cellpadding="10px">
-                                            <colgroup>
-                                                <col span="1" style="width: 70%;">
-                                                <col span="1" style="width: 30%;">
-                                            </colgroup>
-                                            <tr>
-                                                <th>Network name</th>
-                                                <th>Testbed</th>
-                                            </tr>
-                                            %for i in networks:
-                                            <tr>
-                                                <td>{{i['resource_id']}}</td>
-                                                <td>{{i['testbed']}}</td>
-                                            </tr>
-                                            %end
-                                        </table>
-                                        <br />
-                                        <table class="listResTable" cellpadding="10px">
-                                            <colgroup>
-                                                <col span="1" style="width: 70%;">
-                                                <col span="1" style="width: 30%;">
-                                            </colgroup>
-                                            <tr>
-                                                <th>Flavour name</th>
-                                                <th>Testbed</th>
-                                            </tr>
-                                            %for i in flavours:
-                                            <tr>
-                                                <td>{{i['resource_id']}}</td>
-                                                <td>{{i['testbed']}}</td>
-                                            </tr>
-                                            %end
-                                        </table>
-                                    </div>
-                                    <div id="whatever" text-align="left"></div>
-                                    <button id="buttonRefresh" onClick='
-                              document.getElementById("whatever").innerHTML="Loading...";
-                              document.getElementById("buttonRefresh").disabled = true;
-                              $.ajax({
-                                  url: "/refresh_images",
-                                  type: "GET",
-                                  data: "{}",
-                                  dataType: "json",
-                                  contentType: "application/json",
-                                  success: function(result) {
-                                      console.log(result);
-                                      location.reload();
-                                   }
-                              });
-                            ' class="myButton" style="width: 75%; left: 10%;position: relative; margin: 0px auto;">Refresh</button>
-                                </td>
+                                <td>{{i['resource_id']}}</td>
+                                <td>{{i['testbed']}}</td>
                             </tr>
+                            %end
                         </table>
+                        </div>
+                      </div>
+
+                      <div id="availableFalvors" class="tabcontent">
+                        <div style="max-height: 320px;overflow:auto;overflow-y:scroll;border: 2px Solid darkgray;padding: 4px;">
+                          <table class="listResTable" cellpadding="10px">
+                              <colgroup>
+                                  <col span="1" style="width: 40%;">
+                                  <col span="1" style="width: 30%;">
+                              </colgroup>
+                              <tr>
+                                  <th>Flavour name</th>
+                                  <th>Testbed</th>
+                              </tr>
+                              %for i in flavours:
+                              <tr>
+                                  <td>{{i['resource_id']}}</td>
+                                  <td>{{i['testbed']}}</td>
+                              </tr>
+                              %end
+                          </table>
+                        </div>
+                      </div>
                     </td>
                 </tr>
 
                 <tr>
                     <td style="padding: 10px; padding-bottom: 50px">
-                        <table class="formUpload" cellpadding="10px">
-                            <colgroup>
-                                <col span="1" style="width: 30%;">
-                                <col span="1" style="width: 50%;">
-                                <col span="1" style="width: 10%;">
-                                <col span="1" style="width: 10%;">
-                            </colgroup>
-                            <tr class="formUpload">
-                                <td class="formUpload">
-                                    <h2>Your experiment {{experiment_id}}</h2>
-                                </td>
-                                <td class="formUpload">
 
-                                    <table class="formUpload" cellpadding="10px">
-                                        <tr class="formUpload">
-                                            <td class="formUpload">
-                                                <div id="reserveResources" class="reserveResources"> Reserve resources:</div>
-                                            </td>
-                                            <td class="formUpload">
-                                                <form action="/reserve_resources" method="post" enctype="multipart/form-data" id="formId">
-                                                    Select a file: <input type="file" name="data" id="inputId" style="width: 150px">
-                                                    <button type="submit" class="myButton">Start upload</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    </table>
-
-                                </td>
-                                <td class="formUpload">
-                                    <form action="/provide_resources" method="post">
-                                        <button type="submit" style="float: left;" class="myButton"> Deploy </button>
-                                    </form>
-                                </td>
-                                <td class="formUpload">
-                                    <form action="/release_resources" method="post">
-                                        <button type="submit" style="float: left;" class="myButton"> Delete </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </table>
-
+                      <br/>
+                      <br/>
+                      <h2 style="position: relative; left: 45%">Your Experiment</h5>
                         <table class="experimentTable" id="experimentValue" cellpadding="10px">
                             <colgroup>
                                 <col span="1" style="width: 20%;">
@@ -275,6 +253,28 @@
                             %end
 
                         </table>
+                        <br/>
+                        <br/>
+                        <table class="formUpload" cellpadding="10px">
+                            <colgroup>
+                                <col span="1" style="width: 50%;">
+                                <col span="1" style="width: 50%;">
+                            </colgroup>
+                            <tr class="formUpload">
+
+                                <td class="formUpload">
+                                    <form action="/provide_resources" method="post">
+                                        <button type="submit" style="position: relative; left: 35%" class="myButton"> Deploy </button>
+                                    </form>
+                                </td>
+
+                                <td class="formUpload">
+                                    <form action="/release_resources" method="post">
+                                        <button type="submit" style="position: relative; left: 25%" class="myButton"> Delete </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
@@ -293,24 +293,70 @@
             var updateTimer;
             var count = 0;
             // Get the modal
-            var modal = document.getElementById('myModal');
+            var addResModal = document.getElementById('addResModal');
+            var reserveModal = document.getElementById('reserveModal');
             // Get the button that opens the modal
-            var btn = document.getElementById("myBtn");
+            var addResBtn = document.getElementById("addResBtn");
+            var reserveBtn = document.getElementById("reserveBtn");
             // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
+            var spans = document.getElementsByClassName("close");
             // When the user clicks on the button, open the modal
-            btn.onclick = function() {
-                modal.style.display = "block";
+            addResBtn.onclick = function() {
+                addResModal.style.display = "block";
+            }
+            reserveBtn.onclick = function() {
+                reserveModal.style.display = "block";
             }
             // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-                modal.style.display = "none";
+            for (var i = 0; i < spans.length; i++) {
+              spans[i].onclick = function() {
+                  addResModal.style.display = "none";
+                  reserveModal.style.display = "none";
+              }
             }
             // When the user clicks anywhere outside of the modal, close it
             window.onclick = function(event) {
-                if (event.target == modal) {
-                    modal.style.display = "none";
+                if (event.target == addResModal || event.target == reserveModal) {
+                    addResModal.style.display = "none";
+                    reserveModal.style.display = "none";
                 }
+            }
+
+            function refreshResources() {
+              // document.getElementById("whatever").innerHTML="Loading...";
+              // document.getElementById("buttonRefresh").disabled = true;
+              $.ajax({
+                  url: "/refresh_images",
+                  type: "GET",
+                  data: "{}",
+                  dataType: "json",
+                  contentType: "application/json",
+                  success: function(result) {
+                      console.log(result);
+                      location.reload();
+                   }
+              });
+            }
+
+            function openTable(evt, resourceName) {
+                // Declare all variables
+                var i, tabcontent, tablinks;
+
+                // Get all elements with class="tabcontent" and hide them
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+
+                // Get all elements with class="tablinks" and remove the class "active"
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+
+                // Show the current tab, and add an "active" class to the button that opened the tab
+                document.getElementById(resourceName).style.display = "block";
+                evt.currentTarget.className += " active";
             }
 
             $('form').submit(function() {
@@ -337,6 +383,7 @@
             });
 
             $(document).ready(function() {
+              document.getElementById('availableResources').style.display = "block";
               ajaxd();
               updateTimer = setInterval("ajaxd()", 5000);
             });
@@ -380,6 +427,61 @@
         </script>
 
         <style>
+        /* Style the tab */
+            div.tab {
+              overflow: hidden;
+              border: 1px solid #ccc;
+              background-color: darkorange;
+              height: 70px;
+              font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+            }
+
+            /* Style the buttons inside the tab */
+            div.tab button.tablinks {
+              background-color: inherit;
+              float: left;
+              position: relative;
+              top: 10px;
+              border: none;
+              border-left: 1px solid gray;
+              border-right: 1px solid gray;
+              outline: none;
+              font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+              cursor: pointer;
+              padding: 14px 16px;
+              transition: 0.3s;
+              font-size: large;
+            }
+            div.tab img,
+            div.tab button.tablinksRight {
+              background-color: inherit;
+              float: right;
+              width: 50px;
+              border: none;
+              outline: none;
+              cursor: pointer;
+              padding: 14px 16px;
+            }
+
+            /* Change background color of buttons on hover */
+            div.tab button.tablinks:hover {
+              background-color: orange;
+            }
+
+            /* Create an active/current tablink class */
+            div.tab button.active {
+              background-color: orange;
+            }
+
+            /* Style the tab content */
+            .tabcontent {
+              display: none;
+              padding: 6px 12px;
+              border: 1px solid #ccc;
+              border-top: none;
+              font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;
+            }
+
             div#reserveResources {
               /*font-size: 20px;
               border-radius: 5px;
@@ -707,7 +809,7 @@
             .listResTable {
                 border-collapse: collapse;
                 width: 98%;
-                margin: 0px auto;
+                margin: 10px auto;
                 border: 1px solid #ddd;
                 text-align: justify;
             }
