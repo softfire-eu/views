@@ -269,7 +269,7 @@
 
                       <br/>
                       <br/>
-                      <h2 style="position: relative; left: 45%">Your Experiment</h5>
+                      <h2 style="position: relative; left: 45%">{{experiment_id}}</h5>
                         <table class="experimentTable" id="experimentValue" cellpadding="10px">
                             <colgroup>
                                 <col span="1" style="width: 20%;">
