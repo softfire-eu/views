@@ -126,9 +126,13 @@
                         <button class="tablinks" onclick="openTable(event, 'availableNetworks')">Networks</button>
                         <button class="tablinks" onclick="openTable(event, 'availableFalvors')">Flavors</button>
 
-                        <button class="tablinksRight" name="Refresh" onclick='refreshResources()'>
+
+
+                          <input class="tablinksRight" onclick='refreshResources()' type="checkbox" id="btnControl"/>
+                          <label class="tablinksRight" for="btnControl">
                             <img src="static/refresh_yellow.svg" alt="Refresh">
-                          </button>
+                          </label>
+
                       </div>
 
                       <div id="availableResources" class="tabcontent">
@@ -488,11 +492,22 @@
             div.tab button.tablinksRight {
               background-color: inherit;
               float: right;
-              width: 50px;
+              right: 10%;
+              width: 60px;
               border: none;
               outline: none;
               cursor: pointer;
               padding: 14px 16px;
+              -webkit-transition: all 35s ;
+              -webkit-transform: rotateZ(0deg);
+            }
+
+            #btnControl {
+                display: none;
+            }
+
+            #btnControl:checked + label > img {
+                -webkit-transform: rotateZ(36000deg);
             }
 
             /* Change background color of buttons on hover */
