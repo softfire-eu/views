@@ -128,8 +128,8 @@
 
 
 
-                          <input class="tablinksRight" onclick='refreshResources()' type="checkbox" id="btnControl"/>
-                          <label class="tablinksRight" for="btnControl">
+                          <input class="tablinksRight" type="checkbox" id="btnControl"/>
+                          <label class="tablinksRight" for="btnControl" onclick='refreshResources()' style="float: right;">
                             <img src="static/refresh_yellow.svg" alt="Refresh">
                           </label>
 
@@ -269,7 +269,7 @@
 
                       <br/>
                       <br/>
-                      <h2 style="position: relative; left: 45%">{{experiment_id}}</h5>
+                      <h2 style="text-align: center;">{{experiment_id}}</h5>
                         <table class="experimentTable" id="experimentValue" cellpadding="10px">
                             <colgroup>
                                 <col span="1" style="width: 20%;">
