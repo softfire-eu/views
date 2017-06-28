@@ -4,7 +4,7 @@
 <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type">
     <link rel="shortcut icon" type="image/png" href="static/favicon.ico"/>
-    <script type="text/javascript" src="https://caldwell.github.io/renderjson/renderjson.js"></script>
+    <script type="text/javascript" src="static/vendors/renderJson/renderjson.js"></script>
     <title>SoftFIRE middleware</title>
     <!-- Bootstrap -->
     <link href="static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
