@@ -4247,6 +4247,33 @@ table thead .checkbox.radio { margin-top:-7px;margin-top:-21px; }
 }
 /** /bootstrap-datetimepicker **/
 
+.btn-bs-file{
+    position:relative;
+}
+.btn-bs-file input[type="file"]{
+    position: absolute;
+    top: -9999999;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    width:0;
+    height:0;
+    outline: none;
+    cursor: inherit;
+}
+.btn-orange{
+background-color: #FF661A;
+    border-color: #FF661A;
 
+}
 
+.btn-orange:hover{
+    background-color: darkorange;
+    border-color: darkorange;
 
+}
+
+.btn-orange:focus:active{
+    background-color: darkorange;
+    border-color: darkorange;
+
+}

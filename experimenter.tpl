@@ -24,6 +24,8 @@
 
     <script src="static/modernizr.custom.js"></script>
 
+
+
 </head>
 
 <body class="nav-md">
@@ -229,10 +231,10 @@
 
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><input class="tablinksRight" type="checkbox" id="btnControl"/>
-                            <label class="tablinksRight" for="btnControl" onclick='refreshResources()' style="float: right;">
-                                <img width="10%" src="static/refresh_yellow.svg" alt="Refresh">
-                            </label></li>
+                        <!--<li><input class="tablinksRight" type="checkbox" id="btnControl"/>-->
+                            <!--<label class="tablinksRight" for="btnControl" onclick='refreshResources()'>-->
+                                <!--<img width="10%" src="static/refresh_yellow.svg" alt="Refresh">-->
+                            <!--</label></li>-->
                         <li class="">
                             <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{current_user.username}}
@@ -417,34 +419,24 @@
                             %end
 
                         </table>
-                        <br/>
-                        <br/>
-                        <table>
-
+                            <table style="text-align: center;">
                             <tr class="formUpload">
 
                                 <td>
                                     <form action="/provide_resources" method="post">
-                                        <button type="submit"> Deploy </button>
+                                        <button class="btn btn-primary btn-orange" type="submit"> Deploy </button>
                                     </form>
                                 </td>
 
                                 <td class="formUpload">
                                     <form action="/release_resources" method="post">
-                                        <button type="submit"> Delete </button>
+                                        <button class="btn btn-danger" type="submit"> Delete </button>
                                     </form>
                                 </td>
                             </tr>
-                        </table>
+                            </table>
                 </div>
-
-
-
-
-
-
-
-        </div>
+            </div>
             <!--Model 1-->
 
             <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="modal1">
@@ -454,35 +446,57 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                             </button>
-                            <h4 class="modal-title" id="myModalLabel"> Reserve resource </h4>
+                            <h4 class="modal-title" id="myModalLabel"> Reserve Resource </h4>
                         </div>
                         <div class="modal-body">
 
-                            <form action="/reserve_resources" method="post" enctype="multipart/form-data" id="formId">
-                                <table class="formUpload" cellpadding="10px">
-                                    <colgroup>
-                                        <col span="1" style="width: 20%;">
-                                        <col span="1" style="width: 30%;">
-                                    </colgroup>
-                                    <tr>
-                                        <td>Select a file: </td>
-                                        <td><input type="file" name="data" id="inputId" style="width: 150px"></td>
-                                    </tr>
 
-                                </table>
-                                <br />
-                                <span><button type="submit" class="myButton">Start upload</button></span>
+
+
+                            <form style="text-align: center;" action="/reserve_resources" method="post" enctype="multipart/form-data" id="formId">
+                                <br/>
+                                <br/>
+                                <h2>Select a file to upload</h2>
+                                <td>
+                                    <div class="input-group col-md-5" style="text-align: center;margin-left: auto;margin-right: auto;">
+                                        <label class="input-group-btn">
+                    <span class="btn-bs-file btn btn-lg btn-default">
+                        Browse&hellip; <input type="file" style="display: none;" multiple  name="data" id="inputId">
+                    </span>
+                                        </label>
+                                        <input style="height: 46px;" type="text" class="form-control" readonly>
+                                    </div>
+
+
+
+
+                                    <!--<label class="btn-bs-file btn btn-lg btn-default">-->
+                                        <!--Select a file-->
+                                        <!--<input type="file" name="data" id="inputId" />-->
+                                    <!--</label>-->
+
+                                    <!--<input type="file" name="data" id="inputId"></td>-->
+                                <br/>
+                                    <br/>
+
+
+
+
+
+
+                                <!--<span><button type="submit" class="myButton">Start upload</button></span>-->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary btn-orange">Start Upload</button>
+                                </div>
+
                             </form>
 
 
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
-
 
                         </div>
+
                     </div>
 
 
@@ -578,6 +592,40 @@
         <script src="static/vendors/iCheck/icheck.min.js"></script>
         <!-- Custom Theme Scripts -->
         <script src="static/custom.js"></script>
+
+    <script>
+
+        $(function() {
+
+            // We can attach the `fileselect` event to all file inputs on the page
+            $(document).on('change', ':file', function() {
+                var input = $(this),
+                    numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [numFiles, label]);
+            });
+
+            // We can watch for our custom `fileselect` event like this
+            $(document).ready( function() {
+                $(':file').on('fileselect', function(event, numFiles, label) {
+
+                    var input = $(this).parents('.input-group').find(':text'),
+                        log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                    if( input.length ) {
+                        input.val(log);
+                    } else {
+                        if( log ) alert(log);
+                    }
+
+                });
+            });
+
+        });
+
+
+    </script>
+
 
 </body>
 
