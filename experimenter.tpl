@@ -61,11 +61,11 @@
         $.ajax({
             url: "/refresh_images",
             type: "GET",
-            data: "{}",
-            dataType: "json",
+            // data: "{}",
+            // dataType: "json",
             contentType: "application/json",
             success: function (result) {
-                console.log(result);
+                console.log("success");
                 location.reload();
             }
         });
