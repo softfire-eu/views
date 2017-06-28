@@ -3,96 +3,47 @@
   <head>
     <meta content="text/html; charset=utf-8" http-equiv="content-type">
     <link rel="shortcut icon" type="image/png" href="static/favicon.ico" />
+    <!-- Bootstrap -->
+    <link href="static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="static/vendors/nprogress/nprogress.css" rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link href="static/custom.css" rel="stylesheet">
   </head>
-  <body>
-    <img src="static/softfire.jpg" alt="SoftFIRE" align="middle" class="heightSet">
-    <div id="box">
-      <div class="box">
-        <h2>Login</h2>
-        <p>Please insert your credentials:</p>
-        <form action="login" method="post" name="login">
-          <table class="centerTable">
-            <tr>
-              <td><label class="loginLabel">Username: </label></td>
-              <td><input type="text" name="username" /> </td>
-            </tr>
-            <tr>
-              <td><label class="loginLabel">Password: </label></td>
-              <td><input type="password" name="password" /></td>
-            </tr>
-          </table>
-          <br/><br/>
-          <button type="submit"> OK </button>
-          <button type="button" class="close"> Cancel </button>
-        </form>
-        <br />
+  <body  class="login">
+    <div class="login_wrapper">
+      <div class="animate form login_form">
+        <section class="login_content">
+          <form action="login" method="post" name="login">
+            <h1>Login</h1>
+            <div>
+              <input type="text" name="username" class="form-control" placeholder="Username" />
+            </div>
+            <div>
+              <input type="password" class="form-control" placeholder="Password" name="password" />
+            </div>
+            <div class="text-center">
+              <button style="float: none;"  class="btn col-md-5 btn-primary btn-orange submit" type="submit"> Log in </button>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="separator">
+
+              <div class="clearfix"></div>
+              <br />
+
+              <div>
+                <img src="static/softfire.png" width="200" alt="logo">
+                <p>©2017 All Rights Reserved.</p>
+              </div>
+            </div>
+          </form>
+        </section>
       </div>
     </div>
-    <div id="box" >
-      <div id='status' align="center" class="divMiddle"></div>
-    </div>
-    <div id="box">
-      <br />
-      <br style="clear: left;" />
-    </div>
-    <!-- Bootstrap Core CSS
-      <link href="static/bootstrap.min.css" rel="stylesheet">
-      -->
-    <!-- Custom CSS -->
-    <!--
-      <link href="static/simple-sidebar.css" rel="stylesheet">
-      -->
-    <style>
-
-    div#status {
-        border: 1px solid #999;
-        padding: .5em;
-        margin: 2em;
-        width: 15em;
-        -moz-border-radius: 10px;
-        border-radius: 10px;
-        font-size: medium;
-        align: middle;
-    }
-
-      img {
-      display: block;
-      margin: 0 auto;
-      horizontal-align: middle;
-      }
-      div#hbox {width: 100%;}
-      div#hbox div.box {float: left; width: 33%;}
-      input {
-      background: #f8f8f8;
-      border: 1px solid #777;
-      margin: auto;
-      }
-      input:hover { background: #fefefe}
-      h2 {
-      font-size: xx-large;
-      color: #111;
-      }
-      div {
-      color: #777;
-      font-size: x-large;
-      margin: auto;
-      width: 20em;
-      text-align: center;
-      }
-      .clear { clear: both;}
-      .centerTable { margin: 0px auto; }
-      .divMiddle {
-        width: 50%;
-        margin: 0 auto;
-      }
-      .loginLabel {
-      font-size: large;
-      }
-      .heightSet {
-      max-height: 300px;
-      }
-    </style>
-
     <script src="static/jquery.min.js"></script>
     <script>
         // Prevent form submission, send POST asynchronously and parse returned JSON
