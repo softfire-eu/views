@@ -4265,15 +4265,16 @@ background-color: #FF661A;
     border-color: #FF661A;
 
 }
-
 .btn-orange:hover{
     background-color: darkorange;
     border-color: darkorange;
-
 }
 
 .btn-orange:focus:active{
     background-color: darkorange;
     border-color: darkorange;
-
+}
+.fa-spin{
+    webkit-animation: fa-spin 3s  linear;
+    animation: fa-spin 3s linear;
 }
