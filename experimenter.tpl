@@ -168,14 +168,9 @@
             });
         }
     </script>
-
-
-
-
-
 <div class="container body">
     <div class="main_container">
-        <div class="col-md-3 left_col">
+        <div class="col-md-3 left_col menu_fixed mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar">
             <div class="left_col scroll-view">
                 <div class="navbar nav_title" style="border: 0;">
                     <img src="static/softfire.jpg" alt="logo" class="img-circle profile_img">
@@ -449,10 +444,6 @@
                             <h4 class="modal-title" id="myModalLabel"> Reserve Resource </h4>
                         </div>
                         <div class="modal-body">
-
-
-
-
                             <form style="text-align: center;" action="/reserve_resources" method="post" enctype="multipart/form-data" id="formId">
                                 <br/>
                                 <br/>
@@ -461,45 +452,21 @@
                                     <div class="input-group col-md-5" style="text-align: center;margin-left: auto;margin-right: auto;">
                                         <label class="input-group-btn">
                     <span class="btn-bs-file btn btn-lg btn-default">
-                        Browse&hellip; <input type="file" style="display: none;" multiple  name="data" id="inputId">
+                        Browse&hellip; <input type="file" style="display: none;"   name="data" id="inputId">
                     </span>
                                         </label>
                                         <input style="height: 46px;" type="text" class="form-control" readonly>
                                     </div>
-
-
-
-
-                                    <!--<label class="btn-bs-file btn btn-lg btn-default">-->
-                                        <!--Select a file-->
-                                        <!--<input type="file" name="data" id="inputId" />-->
-                                    <!--</label>-->
-
-                                    <!--<input type="file" name="data" id="inputId"></td>-->
-                                <br/>
                                     <br/>
-
-
-
-
-
-
-                                <!--<span><button type="submit" class="myButton">Start upload</button></span>-->
+                                    <br/>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary btn-orange">Start Upload</button>
                                 </div>
 
                             </form>
-
-
-
-
                         </div>
-
                     </div>
-
-
                 </div>
 
             </div>
@@ -516,52 +483,93 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
                             </button>
-                            <h4 class="modal-title">  Add resource  </h4>
+                            <h4 class="modal-title">  Add Resource  </h4>
                         </div>
                         <div class="modal-body">
 
-                            <form action="/add_resource" method="post" enctype="multipart/form-data">
-                                <table class="formUpload" cellpadding="10px">
-                                    <colgroup>
-                                        <col span="1" style="width: 20%;">
-                                        <col span="1" style="width: 30%;">
-                                    </colgroup>
-                                    <tr>
-                                        <td> Select a file: </td>
-                                        <td><input type="file" name="upload" id="inputId" style="width: 250px"></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Resource ID </td>
-                                        <td><input type="input" name="id" style="width: 250px" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Node type</td>
-                                        <td><input type="input" name="node_type" style="width: 250px" /></td>
-                                    </tr>
-                                    <tr>
-                                        <td> Cardinality </td>
-                                        <td><input type="input" name="cardinality" style="width: 250px" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Description </td>
-                                        <td> <input type="input" name="description" style="width: 250px" /> </td>
-                                    </tr>
-                                    <tr>
-                                        <td> Testbed </td>
-                                        <td><input type="input" name="testbed" style="width: 250px" /></td>
-                                    </tr>
+
+
+
+
+
+                            <form action="/add_resource" method="post" enctype="multipart/form-data" class="form-horizontal form-label-left">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Select a file
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+
+                                        <div class="input-group">
+                                            <label class="input-group-btn">
+                    <span class="btn-bs-file btn btn-default">
+                        Browse&hellip; <input type="file" style="display: none;"   name="upload" id="inputId">
+                    </span>
+                                            </label>
+                                            <input class="form-control" readonly>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Resource ID</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text" name="id">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Node Type</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text" name="node_type">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Cardinality</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text" name="cardinality">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text" name="description">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Testbed</label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text" name="testbed">
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <table>
+                                    <!--<tr>-->
+                                        <!--<td> Testbed </td>-->
+                                        <!--<td><input type="input" name="testbed" style="width: 250px" /></td>-->
+                                    <!--</tr>-->
 
                                 </table>
-                                <br />
-                                <button type="submit" style="float: left;" class="myButton"> Add resource </button>
+                                <!--<br />-->
+                                <!--<button type="submit" style="float: left;" class="myButton"> Add resource </button>-->
+
+
+
+
+
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary btn-orange">Add Resource</button>
+                                </div>
+
+
                             </form>
 
 
 
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
+
 
 
                         </div>
@@ -592,8 +600,7 @@
         <script src="static/vendors/iCheck/icheck.min.js"></script>
         <!-- Custom Theme Scripts -->
         <script src="static/custom.js"></script>
-
-    <script>
+        <script>
 
         $(function() {
 
@@ -625,7 +632,6 @@
 
 
     </script>
-
 
 </body>
 
