@@ -140,13 +140,13 @@
                 for (var i = 0; i < value.length; i++) {
                     // j = JSON.stringify(JSON.parse(value[i]['value']), null, 2)
                     try {
-                        j = renderjson.set_show_to_level(1).set_icons('+', '-')(JSON.parse(value[i]['value']))
+                        j = renderjson.set_show_to_level(3).set_icons('+', '-')(JSON.parse(value[i]['value']))
 
                     } catch (e) {
                         j = $("<div>").innerHTML = value[i]['value']
                     } finally {
                         $('#experimentValue').append(
-                            $('<tr>').append('<td>' + value[i]['resource_id'] + '</td><td>' + value[i]['status'] + '</td>').append($('<td>').append(j))
+                            $('<tr>').append('<td>' + value[i]['resource_id'] + '</td><td>' + value[i]['status'] + '</td>').append($('<td style="font-size: small">').append(j))
                         )
                     }
 
