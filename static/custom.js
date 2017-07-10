@@ -5119,3 +5119,16 @@ $(function(){
         $('#myTable1div').hide();
     }
 });
+$('#toggle_event_editing button').click(function(){
+    if($(this).hasClass('locked_active') || $(this).hasClass('unlocked_inactive')){
+		/* code to do when unlocking */
+        $('#switch_status').html('Switched on.');
+    }else{
+		/* code to do when locking */
+        $('#switch_status').html('Switched off.');
+    }
+
+	/* reverse locking status */
+    $('#toggle_event_editing button').eq(0).toggleClass('locked_inactive locked_active btn-default btn-orange');
+    $('#toggle_event_editing button').eq(1).toggleClass('unlocked_inactive unlocked_active btn-orange btn-default');
+});

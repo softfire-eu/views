@@ -146,7 +146,7 @@
                         j = $("<div>").innerHTML = value[i]['value']
                     } finally {
                         $('#experimentValue').append(
-                            $('<tr>').append('<td>' + value[i]['resource_id'] + '</td><td>' + value[i]['status'] + '</td>').append($('<td style="font-size: small">').append(j))
+                            $('<tr>').append('<td>' + value[i]['resource_id'] + '</td><td>' + value[i]['status'] + '</td>').append($('<td>').append(j))
                         )
                     }
 
@@ -156,6 +156,14 @@
                 //  $(msg).appendTo("#edix");
             }
         });
+    }
+    function StartRefresh() {
+        document.getElementById('availableResources').style.display = "block";
+        ajaxd();
+        updateTimer = setInterval("ajaxd()", 5000);
+    }
+    function StopRefresh() {
+        clearInterval(updateTimer);
     }
 </script>
 <div class="container body">
@@ -363,7 +371,33 @@
                     </div>
                 </div>
                 <div id="myTable1div" class="x_panel">
-                    <h2 style="text-align: center;">{{experiment_id}}</h2>
+
+                    <table width="100%">
+                        <tr>
+                            <td>
+                                <div><h2>{{experiment_id}}</h2></div>
+                            </td>
+                            <td>
+                                <table style="float: right;">
+                                    <tr>
+                                        <td>
+                                            <span style="float: right;">Automatic Refresh on Backgrond &nbsp; &nbsp;</span>
+                                        </td>
+                                        <td>
+                                            <div style="float: right" class="btn-group" id="toggle_event_editing">
+                                                <button onclick="StartRefresh()" type="button"
+                                                        class="btn btn-orange locked_active switchbtn">ON
+                                                </button>
+                                                <button onclick="StopRefresh()" type="button"
+                                                        class="btn btn-default unlocked_inactive switchbtn">OFF
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
                     <table class="table table-striped table-bordered" id="experimentValue" cellpadding="10px">
                         <tr>
                             <th>Resource Id</th>
@@ -394,117 +428,118 @@
                     </table>
                 </div>
             </div>
-            <!--Model 1-->
-            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="modal1">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                            </button>
-                            <h4 class="modal-title" id="myModalLabel"> Reserve Resource </h4>
-                        </div>
-                        <div class="modal-body">
-                            <form style="text-align: center;" action="/reserve_resources" method="post"
-                                  enctype="multipart/form-data" id="formId">
-                                <br/>
-                                <br/>
-                                <h2>Select a file to upload</h2>
-                                <td>
-                                    <div class="input-group col-md-5"
-                                         style="text-align: center;margin-left: auto;margin-right: auto;">
-                                        <label class="input-group-btn">
+        </div>
+        <!--Model 1-->
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="modal1">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel"> Reserve Resource </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form style="text-align: center;" action="/reserve_resources" method="post"
+                              enctype="multipart/form-data" id="formId">
+                            <br/>
+                            <br/>
+                            <h2>Select a file to upload</h2>
+                            <td>
+                                <div class="input-group col-md-5"
+                                     style="text-align: center;margin-left: auto;margin-right: auto;">
+                                    <label class="input-group-btn">
                                             <span class="btn-bs-file btn btn-lg btn-default">
                         Browse&hellip; <input type="file" style="display: none;" name="data" id="inputId">
                     </span>
-                                        </label>
-                                        <input style="height: 46px;" type="text" class="form-control" readonly>
-                                    </div>
-                                    <br/>
-                                    <br/>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close
-                                        </button>
-                                        <button type="submit" class="btn btn-primary btn-orange">Start Upload</button>
-                                    </div>
-                            </form>
-                        </div>
+                                    </label>
+                                    <input style="height: 46px;" type="text" class="form-control" readonly>
+                                </div>
+                                <br/>
+                                <br/>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary btn-orange">Start Upload</button>
+                                </div>
+                        </form>
                     </div>
                 </div>
             </div>
-            <!--Model 2-->
-            <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="modal2">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
-                            </button>
-                            <h4 class="modal-title"> Add Resource </h4>
-                        </div>
-                        <div class="modal-body">
-                            <form action="/add_resource" method="post" enctype="multipart/form-data"
-                                  class="form-horizontal form-label-left">
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Select a
-                                        file
-                                    </label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <div class="input-group">
-                                            <label class="input-group-btn">
+        </div>
+        <!--Model 2-->
+        <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-hidden="true" id="modal2">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title"> Add Resource </h4>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/add_resource" method="post" enctype="multipart/form-data"
+                              class="form-horizontal form-label-left">
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Select a
+                                    file
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <div class="input-group">
+                                        <label class="input-group-btn">
                                                 <span class="btn-bs-file btn btn-default">
                         Browse&hellip; <input type="file" style="display: none;" name="upload" id="inputId">
                     </span>
-                                            </label>
-                                            <input class="form-control" readonly>
-                                        </div>
+                                        </label>
+                                        <input class="form-control" readonly>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Resource ID</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text"
-                                               name="id">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Resource ID</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="input" class="form-control col-md-7 col-xs-12" type="text"
+                                           name="id">
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Node Type</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text"
-                                               name="node_type">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Node Type</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="input" class="form-control col-md-7 col-xs-12" type="text"
+                                           name="node_type">
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Cardinality</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text"
-                                               name="cardinality">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Cardinality</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="input" class="form-control col-md-7 col-xs-12" type="text"
+                                           name="cardinality">
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text"
-                                               name="description">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="input" class="form-control col-md-7 col-xs-12" type="text"
+                                           name="description">
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-3 col-sm-3 col-xs-12">Testbed</label>
-                                    <div class="col-md-6 col-sm-6 col-xs-12">
-                                        <input type="input" class="form-control col-md-7 col-xs-12" type="text"
-                                               name="testbed">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Testbed</label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <input type="input" class="form-control col-md-7 col-xs-12" type="text"
+                                           name="testbed">
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary btn-orange">Add Resource</button>
-                                </div>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary btn-orange">Add Resource</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <!-- jQuery -->
 <script src="static/vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap -->

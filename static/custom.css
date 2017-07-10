@@ -4284,3 +4284,6 @@ background-color: #FF661A;
 #experimentValue td span {
   line-height: 0px;
 }
+.switchbtn  {
+    padding: 0px 6px;
+}
