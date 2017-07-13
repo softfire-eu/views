@@ -3,6 +3,7 @@
 <html>
 <head>
 <meta charset='utf-8' />
+<link rel="shortcut icon" type="image/png" href="static/favicon.ico"/>
 <link href='static/fullcalendar.min.css' rel='stylesheet' />
 <link href='static/fullcalendar.print.min.css' rel='stylesheet' media='print' />
 <script src='static/moment.min.js'></script>
@@ -50,7 +51,7 @@
 				{
 					title: "{{u['resource_id']}}",
 					start: "{{u['start']}}",
-					end: "{{u['end']}}"
+					end: "{{u['end']}}",
 					color: stringToColour("{{u['resource_id']}}")
 				},
         % end
