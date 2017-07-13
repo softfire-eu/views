@@ -375,7 +375,7 @@
                     <table width="100%">
                         <tr>
                             <td>
-                                <div><h2>{{experiment_id}}</h2></div>
+                                <div><h2><a href="/get_full_status" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="View Full JSON"><i class="fa fa-external-link"></i></a> {{experiment_id}}</h2></div>
                             </td>
                             <td>
                                 <table style="float: right;">
