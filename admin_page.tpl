@@ -106,6 +106,12 @@
                 <button type="submit"> OK </button>
             </form>
             <br />
+            <br />
+            <p>Check user:</p>
+            <form action="check_user" method="get" class="ajax">
+              <p><label>Username</label> <input type="text" name="username" /></p>
+               <button type="submit"> OK </button>
+            </form>
         </div>
 
         <div class="clear"></div>
@@ -123,6 +129,7 @@
                 $("div#status").fadeIn(100);
                 z = $(this);
                 $.post($(this).attr('action'), $(this).serialize(), function(j){
+                  console.log(j)
                   if (j.ok) {
                     $("div#status").css("background-color", "#f0fff0");
                     $("div#status p").text('Ok.');
@@ -131,7 +138,13 @@
                     $("div#status p").text(j.msg);
                   }
                   $("div#status").delay(800).fadeOut(500);
-                }, "json");
+                }, "json")
+                .fail(function(j) {
+                    console.log(j)
+                    $("div#status").css("background-color", "#fff0f0");
+                    $("div#status p").text(j.responseText);
+                    $("div#status").delay(3000).fadeOut(500);
+                });
                 return false;
             });
         </script>
