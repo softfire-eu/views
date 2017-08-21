@@ -106,9 +106,14 @@
                 <button type="submit"> OK </button>
             </form>
             <br />
-            <br />
             <p>Check user:</p>
             <form action="check_user" method="get" class="ajax">
+              <p><label>Username</label> <input type="text" name="username" /></p>
+               <button type="submit"> OK </button>
+            </form>
+            <br />
+            <p>Refresh user:</p>
+            <form action="refresh_user" method="post" class="ajax">
               <p><label>Username</label> <input type="text" name="username" /></p>
                <button type="submit"> OK </button>
             </form>
