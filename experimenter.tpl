@@ -115,12 +115,12 @@
         return false;
     });
 
+
     $(document).ready(function () {
         document.getElementById('availableResources').style.display = "block";
         ajaxd();
-        updateTimer = setInterval("ajaxd()", 5000);
+//        updateTimer = setInterval("ajaxd()", 5000);
     });
-
     function ajaxd() {
         if (count++ == 25) {
             clearInterval(updateTimer);
@@ -132,11 +132,47 @@
             contentType: 'application/json',
             dataType: "json",
             success: function (value) {
-                //  console.log(value);
-
+                var experiments = {};
+                for (i = 0; i < value.length; i++) {
+                    if (experiments[value[i]['experiment_id']] === undefined) {
+                        experiments[value[i]['experiment_id']] = [];
+                    }
+                    var tmp = {};
+                    //tmp['node_type'] = value[i]['node_type'];
+                    tmp['resource_id'] = value[i]['resource_id'];
+                    tmp['status'] = value[i]['status'];
+                    tmp['value'] = value[i]['value'];
+                    experiments[value[i]['experiment_id']].push(tmp);
+                }
+//                console.log(experiments);
+                //hide div if there are no experiments
+                $(function () {
+                    if (i == "0") {
+                        $(".hideExpDiv").hide();
+                    }
+                });
+                var i = 0;
+                var j = 0;
+                $.each(experiments, function (key, value) {
+                    // alert( key + ": " + value );
+                    i++;
+                    $("#experiment-tabs").append('<li class=""><a href="#experiment-data' + i + '" id="exp-tab' + i + '" role="tab" data-toggle="tab" aria-expanded="true">' + key + '</a></li>');
+                    $("#experiment-content").append('<div role="tabpanel" class="tab-pane fade in " id="experiment-data' + i + '" aria-labelledby="home-tab"><div id="experiment-resource' + i + '" class="row"><div class="col-md-12 col-sm-12 col-xs-12"><table id="table-exp' + i + '" class="table table-striped table-bordered"> <thead><tr> <td>Resource Id</td> <td>Status</td><td>Value</td></tr></thead>');
+                    $('.nav-tabs li:first-child a').tab('show');
+//                    console.log(value);
+                    $.each(value, function (key2, value2) {
+//                        console.log(value2);
+                        $("#table-exp" + i).append('<tr id="row' + j + '">');
+                        $("#row" + j).append('<td>' + value2.resource_id + '</td>');
+                        $("#row" + j).append('<td>' + value2.status + '</td>');
+                        $("#row" + j).append('<td>' + value2.value + '</td>');
+                        $("#table-exp" + i).append('</tr>');
+                        j++;
+                    });
+                    $("#experiment-content").append('</table><div></div> </div></div></div>');
+                });
                 $('#experimentValue tr').remove();
                 $('#experimentValue').append('<tr><th>Resource Id</th><th>Status</th><th>Value</th></tr>');
-
                 for (var i = 0; i < value.length; i++) {
                     // j = JSON.stringify(JSON.parse(value[i]['value']), null, 2)
                     try {
@@ -151,281 +187,320 @@
                     }
 
                 }
-
                 //  .innerHTML = JSON.stringify(value[0]['resource_id'],null,2)
                 //  $(msg).appendTo("#edix");
             }
         });
     }
-    function StartRefresh() {
-        document.getElementById('availableResources').style.display = "block";
-        ajaxd();
-        updateTimer = setInterval("ajaxd()", 5000);
-    }
-    function StopRefresh() {
-        clearInterval(updateTimer);
-    }
+    //    function StartRefresh() {
+    //        document.getElementById('availableResources').style.display = "block";
+    //        ajaxd();
+    //        updateTimer = setInterval("ajaxd()", 5000);
+    //    }
+    //    function StopRefresh() {
+    //        clearInterval(updateTimer);
+    //    }
 </script>
 <div class="container body">
-    <div class="main_container">
-        <div class="col-md-3 left_col menu_fixed mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar">
-            <div class="left_col scroll-view">
-                <div class="navbar nav_title" style="border: 0;">
-                    <img src="static/softfire.jpg" alt="logo" class="img-circle profile_img">
-                </div>
-                <div class="clearfix"></div>
-                <!-- menu profile quick info -->
-                <div class="profile clearfix">
-                    <div class="profile_pic">
+    <div class="x_panel">
+        <div class="main_container">
+            <div class="col-md-3 left_col menu_fixed mCustomScrollbar _mCS_1 mCS-autoHide mCS_no_scrollbar">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <img src="static/softfire.jpg" alt="logo" class="img-circle profile_img">
                     </div>
+                    <div class="clearfix"></div>
+                    <!-- menu profile quick info -->
+                    <div class="profile clearfix">
+                        <div class="profile_pic">
+                        </div>
+                    </div>
+                    <!-- /menu profile quick info -->
+                    <br/>
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <ul class="nav side-menu">
+                                <li><a href="/experimenter"><i class="fa fa-flask"></i> Experiment </a>
+                                </li>
+                                <li><a href="/calendar"><i class="fa fa-calendar"></i> Calendar </a>
+                                </li>
+                                <li><a href="http://docs.softfire.eu"><i class="fa fa-file"></i> Documentation</a>
+                                </li>
+                                <li><a href="#" data-toggle="modal" data-target="#modal1"><i class="fa fa-lock"></i>
+                                    Reserve
+                                    Resource </span></a>
+                                </li>
+                                <li><a href="#" data-toggle="modal" data-target="#modal2"><i class="fa fa-plus"></i> Add
+                                    Resource </span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
                 </div>
-                <!-- /menu profile quick info -->
-                <br/>
-                <!-- sidebar menu -->
-                <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-                    <div class="menu_section">
-                        <ul class="nav side-menu">
-                            <li><a href="/experimenter"><i class="fa fa-flask"></i> Experiment </a>
+            </div>
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div style="width: auto; padding-top: 14px;" class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+                        <h2 style="display: inline-block;"> Experiment </h2>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
+                                   aria-expanded="false">
+                                    <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+                                    {{current_user.username}}
+                                    <span class=" fa fa-angle-down"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                    <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                                </ul>
                             </li>
-                            <li><a href="/calendar"><i class="fa fa-calendar"></i> Calendar </a>
-                            </li>
-                            <li><a href="http://docs.softfire.eu"><i class="fa fa-file"></i> Documentation</a>
-                            </li>
-                            <li><a href="#" data-toggle="modal" data-target="#modal1"><i class="fa fa-lock"></i> Reserve
-                                Resource </span></a>
-                            </li>
-                            <li><a href="#" data-toggle="modal" data-target="#modal2"><i class="fa fa-plus"></i> Add
-                                Resource </span></a>
-                            </li>
+                            <li><label id="btnControl" class="tablinksRight" for="btnControl"
+                                       onclick='refreshResources()'>
+                                <i style="font-size: 25px;line-height: 52px;color: #FF661A;" onclick="toggleColor()"
+                                   id="btn1" class="fa fa-refresh"></i>
+                            </label></li>
                         </ul>
-                    </div>
+                    </nav>
                 </div>
-                <!-- /sidebar menu -->
             </div>
-        </div>
-        <!-- top navigation -->
-        <div class="top_nav">
-            <div class="nav_menu">
-                <nav>
-                    <div style="width: auto; padding-top: 14px;" class="nav toggle">
-                        <a id="menu_toggle"><i class="fa fa-bars"></i></a>
-                    </div>
-                    <h2 style="display: inline-block;"> Experiment </h2>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown"
-                               aria-expanded="false">
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-                                {{current_user.username}}
-                                <span class=" fa fa-angle-down"></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-usermenu pull-right">
-                                <li><a href="/logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
-                            </ul>
-                        </li>
-                        <li><label id="btnControl" class="tablinksRight" for="btnControl" onclick='refreshResources()'>
-                            <i style="font-size: 25px;line-height: 52px;color: #FF661A;" onclick="toggleColor()"
-                               id="btn1" class="fa fa-refresh"></i>
-                        </label></li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <!-- /top navigation -->
-        <!-- page content -->
-        <div class="right_col" role="main">
-            <div class="">
-                <div class="clearfix"></div>
-                <div class="x_panel">
-                    <div class="x_content">
-                        <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                            <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab"
-                                                                          data-toggle="tab" aria-expanded="true">SoftFIRE
-                                    Resources</a>
-                                </li>
-                                <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab"
-                                                                    data-toggle="tab" aria-expanded="false">User
-                                    Resources</a>
-                                </li>
-                                <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2"
-                                                                    data-toggle="tab" aria-expanded="false">Images</a>
-                                </li>
-                                <li role="presentation" class=""><a href="#tab_content4" role="tab" id="profile-tab4"
-                                                                    data-toggle="tab" aria-expanded="false">Networks</a>
-                                </li>
-                                <li role="presentation" class=""><a href="#tab_content5" role="tab" id="profile-tab5"
-                                                                    data-toggle="tab" aria-expanded="false">Flavors</a>
-                                </li>
-                            </ul>
-                            <div id="myTabContent" class="tab-content">
-                                <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
-                                     aria-labelledby="home-tab">
-                                    <div id="availableResources" class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <table class="table table-striped table-bordered">
-                                                <tr>
-                                                    <th>Resource Id</th>
-                                                    <th>NodeType</th>
-                                                    <th>Cardinality</th>
-                                                    <th>Testbed</th>
-                                                    <th>Description</th>
-                                                </tr>
-                                                %for r in resources:
-                                                <tr>
-                                                    <td>{{r['resource_id']}}</td>
-                                                    <td>{{r['node_type']}}</td>
-                                                    <td>{{r['cardinality']}}</td>
-                                                    <td>{{r['testbed']}}</td>
-                                                    <td>{{r['description']}}</td>
-                                                </tr>
-                                                %end
-                                            </table>
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="clearfix"></div>
+                    <div class="x_panel">
+                        <div class="x_content">
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab"
+                                                                              role="tab"
+                                                                              data-toggle="tab" aria-expanded="true">SoftFIRE
+                                        Resources</a>
+                                    </li>
+                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab"
+                                                                        data-toggle="tab" aria-expanded="false">User
+                                        Resources</a>
+                                    </li>
+                                    <li role="presentation" class=""><a href="#tab_content3" role="tab"
+                                                                        id="profile-tab2"
+                                                                        data-toggle="tab"
+                                                                        aria-expanded="false">Images</a>
+                                    </li>
+                                    <li role="presentation" class=""><a href="#tab_content4" role="tab"
+                                                                        id="profile-tab4"
+                                                                        data-toggle="tab"
+                                                                        aria-expanded="false">Networks</a>
+                                    </li>
+                                    <li role="presentation" class=""><a href="#tab_content5" role="tab"
+                                                                        id="profile-tab5"
+                                                                        data-toggle="tab"
+                                                                        aria-expanded="false">Flavors</a>
+                                    </li>
+                                </ul>
+                                <div cl id="myTabContent" class="tab-content ">
+                                    <div role="tabpanel" class="tab-pane fade active in" id="tab_content1"
+                                         aria-labelledby="home-tab">
+                                        <div id="availableResources" class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <table class="table table-striped table-bordered">
+                                                    <tr>
+                                                        <th>Resource Id</th>
+                                                        <th>NodeType</th>
+                                                        <th>Cardinality</th>
+                                                        <th>Testbed</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    %for r in resources:
+                                                    <tr>
+                                                        <td>{{r['resource_id']}}</td>
+                                                        <td>{{r['node_type']}}</td>
+                                                        <td>{{r['cardinality']}}</td>
+                                                        <td>{{r['testbed']}}</td>
+                                                        <td>{{r['description']}}</td>
+                                                    </tr>
+                                                    %end
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab_content2"
-                                     aria-labelledby="profile-tab">
-                                    <div id="availableUserResources" class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-1">
-                                            <table class="table table-striped table-bordered">
-                                                <tr>
-                                                    <th>Resource Id</th>
-                                                    <th>NodeType</th>
-                                                    <th>Cardinality</th>
-                                                    <th>Testbed</th>
-                                                    <th>Description</th>
-                                                </tr>
-                                                %for r in user_resources:
-                                                <tr>
-                                                    <td>{{r['resource_id']}}</td>
-                                                    <td>{{r['node_type']}}</td>
-                                                    <td>{{r['cardinality']}}</td>
-                                                    <td>{{r['testbed']}}</td>
-                                                    <td>{{r['description']}}</td>
-                                                </tr>
-                                                %end
-                                            </table>
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content2"
+                                         aria-labelledby="profile-tab">
+                                        <div id="availableUserResources" class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-1">
+                                                <table class="table table-striped table-bordered">
+                                                    <tr>
+                                                        <th>Resource Id</th>
+                                                        <th>NodeType</th>
+                                                        <th>Cardinality</th>
+                                                        <th>Testbed</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    %for r in user_resources:
+                                                    <tr>
+                                                        <td>{{r['resource_id']}}</td>
+                                                        <td>{{r['node_type']}}</td>
+                                                        <td>{{r['cardinality']}}</td>
+                                                        <td>{{r['testbed']}}</td>
+                                                        <td>{{r['description']}}</td>
+                                                    </tr>
+                                                    %end
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab_content3"
-                                     aria-labelledby="profile-tab">
-                                    <div id="availableImages" class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-12">
-                                            <table class="table table-striped table-bordered">
-                                                <tr>
-                                                    <th>Image name</th>
-                                                    <th>Testbed</th>
-                                                </tr>
-                                                %for i in images:
-                                                <tr>
-                                                    <td>{{i['resource_id']}}</td>
-                                                    <td>{{i['testbed']}}</td>
-                                                </tr>
-                                                %end
-                                            </table>
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3"
+                                         aria-labelledby="profile-tab">
+                                        <div id="availableImages" class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                                <table class="table table-striped table-bordered">
+                                                    <tr>
+                                                        <th>Image name</th>
+                                                        <th>Testbed</th>
+                                                    </tr>
+                                                    %for i in images:
+                                                    <tr>
+                                                        <td>{{i['resource_id']}}</td>
+                                                        <td>{{i['testbed']}}</td>
+                                                    </tr>
+                                                    %end
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab_content4"
-                                     aria-labelledby="profile-tab">
-                                    <div id="availableNetworks" class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-1">
-                                            <table class="table table-striped table-bordered">
-                                                <tr>
-                                                    <th>Network name</th>
-                                                    <th>Testbed</th>
-                                                </tr>
-                                                %for i in networks:
-                                                <tr>
-                                                    <td>{{i['resource_id']}}</td>
-                                                    <td>{{i['testbed']}}</td>
-                                                </tr>
-                                                %end
-                                            </table>
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content4"
+                                         aria-labelledby="profile-tab">
+                                        <div id="availableNetworks" class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-1">
+                                                <table class="table table-striped table-bordered">
+                                                    <tr>
+                                                        <th>Network name</th>
+                                                        <th>Testbed</th>
+                                                    </tr>
+                                                    %for i in networks:
+                                                    <tr>
+                                                        <td>{{i['resource_id']}}</td>
+                                                        <td>{{i['testbed']}}</td>
+                                                    </tr>
+                                                    %end
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div role="tabpanel" class="tab-pane fade" id="tab_content5"
-                                     aria-labelledby="profile-tab">
-                                    <div id="availableFalvors" class="row">
-                                        <div class="col-md-12 col-sm-12 col-xs-1">
-                                            <table class="table table-striped table-bordered">
-                                                <th>Flavour name</th>
-                                                <th>Testbed</th>
-                                                </tr>
-                                                %for i in flavours:
-                                                <tr>
-                                                    <td>{{i['resource_id']}}</td>
-                                                    <td>{{i['testbed']}}</td>
-                                                </tr>
-                                                %end
-                                            </table>
+                                    <div role="tabpanel" class="tab-pane fade" id="tab_content5"
+                                         aria-labelledby="profile-tab">
+                                        <div id="availableFalvors" class="row">
+                                            <div class="col-md-12 col-sm-12 col-xs-1">
+                                                <table class="table table-striped table-bordered">
+                                                    <th>Flavour name</th>
+                                                    <th>Testbed</th>
+                                                    </tr>
+                                                    %for i in flavours:
+                                                    <tr>
+                                                        <td>{{i['resource_id']}}</td>
+                                                        <td>{{i['testbed']}}</td>
+                                                    </tr>
+                                                    %end
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-
                     </div>
-                </div>
-                <div id="myTable1div" class="x_panel">
+                    <div id="myTable1div" class="x_panel hideExpDiv">
 
-                    <table width="100%">
-                        <tr>
-                            <td>
-                                <div><h2><a href="/get_full_status" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="View Full JSON"><i class="fa fa-external-link"></i></a> {{experiment_id}}</h2></div>
-                            </td>
-                            <td>
-                                <table style="float: right;">
-                                    <tr>
-                                        <td>
-                                            <span style="float: right;">Automatic Refresh on Backgrond &nbsp; &nbsp;</span>
-                                        </td>
-                                        <td>
-                                            <div style="float: right" class="btn-group" id="toggle_event_editing">
-                                                <button onclick="StartRefresh()" type="button"
-                                                        class="btn btn-orange locked_active switchbtn">ON
-                                                </button>
-                                                <button onclick="StopRefresh()" type="button"
-                                                        class="btn btn-default unlocked_inactive switchbtn">OFF
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </td>
-                        </tr>
-                    </table>
-                    <table class="table table-striped table-bordered" id="experimentValue" cellpadding="10px">
-                        <tr>
-                            <th>Resource Id</th>
-                            <th>Status</th>
-                            <th>Value</th>
-                        </tr>
-                        %for er in experiment_resources:
-                        <tr>
-                            <td>{{er['resource_id']}}</td>
-                            <td>{{er['status']}}</td>
-                            <td>{{er['value']}}</td>
-                        </tr>
-                        %end
-                    </table>
-                    <table style="text-align: center;">
-                        <tr class="formUpload">
-                            <td>
-                                <form action="/provide_resources" method="post">
-                                    <button class="btn btn-primary btn-orange" type="submit"> Deploy</button>
-                                </form>
-                            </td>
-                            <td class="formUpload">
-                                <form action="/release_resources" method="post">
-                                    <button class="btn btn-danger" type="submit"> Delete</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </table>
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <div><h2><a href="/get_full_status" data-toggle="tooltip" data-placement="bottom"
+                                                title="" data-original-title="View Full JSON"><i
+                                            class="fa fa-external-link"></i></a> {{experiment_id}}</h2></div>
+                                </td>
+                                <td>
+                                    <!--<table style="float: right;">-->
+                                    <!--<tr>-->
+                                    <!--<td>-->
+                                    <!--<span style="float: right;">Automatic Refresh on Backgruond &nbsp; &nbsp;</span>-->
+                                    <!--</td>-->
+                                    <!--<td>-->
+                                    <!--<div style="float: right" class="btn-group" id="toggle_event_editing">-->
+                                    <!--<button onclick="StartRefresh()" type="button"-->
+                                    <!--class="btn btn-orange locked_active switchbtn">ON-->
+                                    <!--</button>-->
+                                    <!--<button onclick="StopRefresh()" type="button"-->
+                                    <!--class="btn btn-default unlocked_inactive switchbtn">OFF-->
+                                    <!--</button>-->
+                                    <!--</div>-->
+                                    <!--</td>-->
+                                    <!--</tr>-->
+                                    <!--</table>-->
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="x_content">
+                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                                <ul id="experiment-tabs" class="nav nav-tabs bar_tabs" role="tablist">
+                                </ul>
+
+                                <div id="experiment-content" class="tab-content">
+
+                                </div>
+                            </div>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <form class="form-group" action="/provide_resources" method="post">
+                                            <table>
+                                                <tr>
+                                                    <td style="padding-top: 5px;"><select class="form-control"
+                                                                                          name="experiment_id">
+                                                        %for id in ids:
+                                                        <option>{{id}}</option>
+                                                        %end
+                                                    </select></td>
+                                                    <td>
+                                                        <button class="btn btn-primary btn-orange"
+                                                                style="border-radius: 0px;" type="submit"> Deploy
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <form action="/release_resources" method="post" id="deleteForm">
+                                            <table>
+                                                <tr>
+                                                    <td style="padding-top: 5px;">
+                                                        <select name="experiment_id" form="deleteForm"
+                                                                class="form-control">
+                                                            %for id in ids:
+                                                            <option>{{id}}</option>
+                                                            %end
+                                                        </select>
+                                                    </td>
+                                                    <td style="padding-top: 10px !important;">
+                                                        <button style="border-radius: 0px;" class="btn btn-danger"
+                                                                type="submit"> Delete
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -539,14 +614,13 @@
         </div>
     </div>
 </div>
-
 <!-- jQuery -->
 <script src="static/vendors/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap -->
 <script src="static/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 <!-- FastClick -->
 <script src="static/vendors/fastclick/lib/fastclick.js"></script>
-<!-- NProgress -->.classLis
+<!-- NProgress -->
 <script src="static/vendors/nprogress/nprogress.js"></script>
 <!-- iCheck -->
 <script src="static/vendors/iCheck/icheck.min.js"></script>

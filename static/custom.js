@@ -5103,22 +5103,21 @@ function toggleColor() {
         myButtonClasses.add("fa-spin");
     }
 }
-
-$(function(){
-    var hide = true;
-
-    $('#experimentValue td').each(function(){
-        var td_content = $(this).text();
-
-        if(td_content!=""){
-            hide = false;
-        }
-    })
-
-    if(hide){
-        $('#myTable1div').hide();
-    }
-});
+// $(function(){
+//     var hide = true;
+//
+//     $('#experimentValue td').each(function(){
+//         var td_content = $(this).text();
+//
+//         if(td_content!=""){
+//             hide = false;
+//         }
+//     })
+//
+//     if(hide){
+//         $('#myTable1div').hide();
+//     }
+// });
 $('#toggle_event_editing button').click(function(){
     if($(this).hasClass('locked_active') || $(this).hasClass('unlocked_inactive')){
 		/* code to do when unlocking */
