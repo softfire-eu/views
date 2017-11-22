@@ -205,8 +205,6 @@
 //    }
 
 </script>
-
-
 <div class="container body">
     <div class="x_panel">
         <div class="main_container">
