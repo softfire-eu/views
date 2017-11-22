@@ -192,15 +192,21 @@
             }
         });
     }
-    //    function StartRefresh() {
-    //        document.getElementById('availableResources').style.display = "block";
-    //        ajaxd();
-    //        updateTimer = setInterval("ajaxd()", 5000);
-    //    }
-    //    function StopRefresh() {
-    //        clearInterval(updateTimer);
-    //    }
+    function StartRefresh() {
+//            document.getElementById('availableResources').style.display = "block";
+        $('#experimentsDiv').load(document.URL + ' #experimentsDiv');
+        ajaxd();
+//            updateTimer = setInterval("ajaxd()", 5000);
+
+
+    }
+//    function StopRefresh() {
+//        clearInterval(updateTimer);
+//    }
+
 </script>
+
+
 <div class="container body">
     <div class="x_panel">
         <div class="main_container">
@@ -276,27 +282,27 @@
                         <div class="x_content">
                             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                                 <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab"
-                                                                              role="tab"
-                                                                              data-toggle="tab" aria-expanded="true">SoftFIRE
+                                    <li role="presentation"><a href="#tab_content1"
+                                                               role="tab"
+                                                               data-toggle="tab" aria-expanded="true">SoftFIRE
                                         Resources</a>
                                     </li>
-                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab"
+                                    <li role="presentation" class=""><a href="#tab_content2" role="tab"
                                                                         data-toggle="tab" aria-expanded="false">User
                                         Resources</a>
                                     </li>
                                     <li role="presentation" class=""><a href="#tab_content3" role="tab"
-                                                                        id="profile-tab2"
+
                                                                         data-toggle="tab"
                                                                         aria-expanded="false">Images</a>
                                     </li>
                                     <li role="presentation" class=""><a href="#tab_content4" role="tab"
-                                                                        id="profile-tab4"
+
                                                                         data-toggle="tab"
                                                                         aria-expanded="false">Networks</a>
                                     </li>
                                     <li role="presentation" class=""><a href="#tab_content5" role="tab"
-                                                                        id="profile-tab5"
+
                                                                         data-toggle="tab"
                                                                         aria-expanded="false">Flavors</a>
                                     </li>
@@ -410,11 +416,9 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-                    <div id="myTable1div" class="x_panel hideExpDiv">
-
+                    <div id="myTablediv" class="x_panel hideExpDiv">
                         <table width="100%">
                             <tr>
                                 <td>
@@ -440,17 +444,22 @@
                                     <!--</td>-->
                                     <!--</tr>-->
                                     <!--</table>-->
+                                    <button style="float: right" onclick="StartRefresh()" type="button"
+                                            class="btn btn-default  btn-sm">
+                                        <span class="glyphicon glyphicon-refresh"></span> Refresh Experiment(s)
+                                    </button>
                                 </td>
                             </tr>
                         </table>
                         <div class="x_content">
-                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                            <div id="experimentsDiv" class="" role="tabpanel">
                                 <ul id="experiment-tabs" class="nav nav-tabs bar_tabs" role="tablist">
                                 </ul>
 
                                 <div id="experiment-content" class="tab-content">
 
                                 </div>
+
                             </div>
                             <table>
                                 <tr>
