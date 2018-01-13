@@ -134,15 +134,16 @@
             success: function (value) {
                 var experiments = {};
                 for (i = 0; i < value.length; i++) {
-                    if (experiments[value[i]['experiment_id']] === undefined) {
-                        experiments[value[i]['experiment_id']] = [];
+                    if (experiments[value[i]['experiment_name']] === undefined) {
+                        experiments[value[i]['experiment_name']] = [];
                     }
                     var tmp = {};
                     //tmp['node_type'] = value[i]['node_type'];
                     tmp['resource_id'] = value[i]['resource_id'];
                     tmp['status'] = value[i]['status'];
                     tmp['value'] = value[i]['value'];
-                    experiments[value[i]['experiment_id']].push(tmp);
+                    tmp['experiment_id'] = value[i]['experiment_id'];
+                    experiments[value[i]['experiment_name']].push(tmp);
                 }
 //                console.log(experiments);
                 //hide div if there are no experiments
@@ -154,41 +155,32 @@
                 var i = 0;
                 var j = 0;
                 $.each(experiments, function (key, value) {
-                    // alert( key + ": " + value );
-                    i++;
+                    i++; // tab number
                     $("#experiment-tabs").append('<li class=""><a href="#experiment-data' + i + '" id="exp-tab' + i + '" role="tab" data-toggle="tab" aria-expanded="true">' + key + '</a></li>');
                     $("#experiment-content").append('<div role="tabpanel" class="tab-pane fade in " id="experiment-data' + i + '" aria-labelledby="home-tab"><div id="experiment-resource' + i + '" class="row"><div class="col-md-12 col-sm-12 col-xs-12"><table id="table-exp' + i + '" class="table table-striped table-bordered"> <thead><tr> <td>Resource Id</td> <td>Status</td><td>Value</td></tr></thead>');
                     $('.nav-tabs li:first-child a').tab('show');
-//                    console.log(value);
                     $.each(value, function (key2, value2) {
-//                        console.log(value2);
                         $("#table-exp" + i).append('<tr id="row' + j + '">');
                         $("#row" + j).append('<td>' + value2.resource_id + '</td>');
                         $("#row" + j).append('<td>' + value2.status + '</td>');
-                        $("#row" + j).append('<td>' + value2.value + '</td>');
-                        $("#table-exp" + i).append('</tr>');
+                    try {
+                        parsedValue = renderjson.set_show_to_level(3).set_icons('+', '-')(JSON.parse(value2.value))
+                    } catch (e) {
+                        parsedValue = $("<div>").innerHTML = value2.value
+                    } finally {
+                        $("#row" + j).append($('<td>').append(parsedValue));
+                    }
+                    $("#table-exp" + i).append('</tr>');
+                    // add buttons for DEPLOY and DELETE
+                    if (value2.status === 'DEPLOYED' || value2.status === 'ERROR') {
+$("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + value2.experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DELETE</button></form></td></tr>');
+                    } else {
+$("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/provide_resources" method="post"><input name="experiment_id" value="' + value2.experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DEPLOY</button></form><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + value2.experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DELETE</button></form></td></tr>');
+                    }
                         j++;
                     });
                     $("#experiment-content").append('</table><div></div> </div></div></div>');
                 });
-                $('#experimentValue tr').remove();
-                $('#experimentValue').append('<tr><th>Resource Id</th><th>Status</th><th>Value</th></tr>');
-                for (var i = 0; i < value.length; i++) {
-                    // j = JSON.stringify(JSON.parse(value[i]['value']), null, 2)
-                    try {
-                        j = renderjson.set_show_to_level(3).set_icons('+', '-')(JSON.parse(value[i]['value']))
-
-                    } catch (e) {
-                        j = $("<div>").innerHTML = value[i]['value']
-                    } finally {
-                        $('#experimentValue').append(
-                            $('<tr>').append('<td>' + value[i]['resource_id'] + '</td><td>' + value[i]['status'] + '</td>').append($('<td>').append(j))
-                        )
-                    }
-
-                }
-                //  .innerHTML = JSON.stringify(value[0]['resource_id'],null,2)
-                //  $(msg).appendTo("#edix");
             }
         });
     }
@@ -422,7 +414,7 @@
                                 <td>
                                     <div><h2><a href="/get_full_status" data-toggle="tooltip" data-placement="bottom"
                                                 title="" data-original-title="View Full JSON"><i
-                                            class="fa fa-external-link"></i></a> {{experiment_id}}</h2></div>
+                                            class="fa fa-external-link"></i></a> Your experiments:</h2></div>
                                 </td>
                                 <td>
                                     <!--<table style="float: right;">-->
@@ -459,53 +451,6 @@
                                 </div>
 
                             </div>
-                            <table>
-                                <tr>
-                                    <td>
-                                        <form class="form-group" action="/provide_resources" method="post">
-                                            <table>
-                                                <tr>
-                                                    <td style="padding-top: 5px;"><select class="form-control"
-                                                                                          name="experiment_id">
-                                                        %for id in ids:
-                                                        <option>{{id}}</option>
-                                                        %end
-                                                    </select></td>
-                                                    <td>
-                                                        <button class="btn btn-primary btn-orange"
-                                                                style="border-radius: 0px;" type="submit"> Deploy
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-
-                                        </form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <form action="/release_resources" method="post" id="deleteForm">
-                                            <table>
-                                                <tr>
-                                                    <td style="padding-top: 5px;">
-                                                        <select name="experiment_id" form="deleteForm"
-                                                                class="form-control">
-                                                            %for id in ids:
-                                                            <option>{{id}}</option>
-                                                            %end
-                                                        </select>
-                                                    </td>
-                                                    <td style="padding-top: 10px !important;">
-                                                        <button style="border-radius: 0px;" class="btn btn-danger"
-                                                                type="submit"> Delete
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </table>
                         </div>
                     </div>
                 </div>
