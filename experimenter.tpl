@@ -154,6 +154,8 @@
                 });
                 var i = 0;
                 var j = 0;
+                var experiment_id = ""
+                var experiment_status = ""
                 $.each(experiments, function (key, value) {
                     i++; // tab number
                     $("#experiment-tabs").append('<li class=""><a href="#experiment-data' + i + '" id="exp-tab' + i + '" role="tab" data-toggle="tab" aria-expanded="true">' + key + '</a></li>');
@@ -163,24 +165,31 @@
                         $("#table-exp" + i).append('<tr id="row' + j + '">');
                         $("#row" + j).append('<td>' + value2.resource_id + '</td>');
                         $("#row" + j).append('<td>' + value2.status + '</td>');
-                    try {
-                        parsedValue = renderjson.set_show_to_level(3).set_icons('+', '-')(JSON.parse(value2.value))
-                    } catch (e) {
-                        parsedValue = $("<div>").innerHTML = value2.value
-                    } finally {
-                        $("#row" + j).append($('<td>').append(parsedValue));
-                    }
-                    $("#table-exp" + i).append('</tr>');
-                    // add buttons for DEPLOY and DELETE
-                    if (value2.status === 'DEPLOYED' || value2.status === 'ERROR') {
-$("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + value2.experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DELETE</button></form></td></tr>');
-                    } else {
-$("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/provide_resources" method="post"><input name="experiment_id" value="' + value2.experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DEPLOY</button></form><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + value2.experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DELETE</button></form></td></tr>');
-                    }
+                        try {
+                            parsedValue = renderjson.set_show_to_level(3).set_icons('+', '-')(JSON.parse(value2.value))
+                        } catch (e) {
+                            parsedValue = $("<div>").innerHTML = value2.value
+                        } finally {
+                            $("#row" + j).append($('<td>').append(parsedValue));
+                        }
+                        $("#table-exp" + i).append('</tr>');
+                        $("#experiment-content").append('</table><div></div> </div></div></div>');
+                        experiment_id = value2.experiment_id
+                        experiment_status = value2.status
                         j++;
                     });
-                    $("#experiment-content").append('</table><div></div> </div></div></div>');
+                    if (experiment_id) {
+                        // add buttons for DEPLOY and DELETE
+                        if (experiment_status === 'DEPLOYED' || experiment_status === 'ERROR') {
+                            $("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DELETE</button></form></td></tr>');
+                        } else {
+                            $("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/provide_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DEPLOY</button></form><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DELETE</button></form></td></tr>');
+                        }
+                    }
                 });
+
+
+
             }
         });
     }
