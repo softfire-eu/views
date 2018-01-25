@@ -181,9 +181,9 @@
                     if (experiment_id) {
                         // add buttons for DEPLOY and DELETE
                         if (experiment_status === 'DEPLOYED' || experiment_status === 'ERROR') {
-                            $("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DELETE</button></form></td></tr>');
+                            $("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit" onclick="waitingDialog.show();" >DELETE</button></form></td></tr>');
                         } else {
-                            $("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/provide_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DEPLOY</button></form><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit">DELETE</button></form></td></tr>');
+                            $("#table-exp" + i).append('<tr><td colspan="3"><form style="display: inline-block" action="/provide_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit"  onclick="waitingDialog.show();">DEPLOY</button></form><form style="display: inline-block" action="/release_resources" method="post"><input name="experiment_id" value="' + experiment_id + '" type="hidden"><button class="btn btn-primary btn-orange" style="border-radius: 0px;" type="submit" onclick="waitingDialog.show();">DELETE</button></form></td></tr>');
                         }
                     }
                 });
@@ -443,7 +443,7 @@
                                     <!--</td>-->
                                     <!--</tr>-->
                                     <!--</table>-->
-                                    <button style="float: right" onclick="StartRefresh()" type="button"
+                                    <button onclick="waitingDialog.show();" style="float: right" onclick="StartRefresh()" type="button"
                                             class="btn btn-default  btn-sm">
                                         <span class="glyphicon glyphicon-refresh"></span> Refresh Experiment(s)
                                     </button>
@@ -495,7 +495,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close
                                     </button>
-                                    <button type="submit" class="btn btn-primary btn-orange">Start Upload</button>
+                                    <button onclick="$('#modal1').modal('toggle'); waitingDialog.show();" type="submit" class="btn btn-primary btn-orange">Start Upload</button>
                                 </div>
                         </form>
                     </div>
@@ -566,7 +566,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary btn-orange">Add Resource</button>
+                                <button onclick="waitingDialog.show();" type="submit" class="btn btn-primary btn-orange">Add Resource</button>
                             </div>
                         </form>
                     </div>
