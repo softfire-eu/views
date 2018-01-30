@@ -41,6 +41,14 @@
                 <button type="submit"> OK </button>
                 <button type="button" class="close"> Cancel </button>
             </form>
+            <br />
+            <p>Maintenance</p>
+            <form action="enable_maintenance" method="post" class="ajax">
+                <button type="submit"> Enable </button>
+            </form>
+            <form action="disable_maintenance" method="post" class="ajax">
+                <button type="submit"> Disable </button>
+            </form>
         </div>
         <div id="users">
             <table>
